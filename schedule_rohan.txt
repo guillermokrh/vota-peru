@@ -1,0 +1,4 @@
+Create paper prototypes for design of solution
+Create comprehensive design plan for the solution
+Identify best front-end technologies for web platform
+Start implementing front-end visualizations for the platform
