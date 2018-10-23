@@ -1,0 +1,6 @@
+- Identify interesting visualization opportunities in the data set
+- Provide Spanish translation for any fields in data set that need translation
+- Export Excel tables as .CSV or other data format
+- Create paper prototypes for design of solution
+- Help implement front-end and back-end of web platform
+- Load .CSV data into platform to prototype first visualizations
