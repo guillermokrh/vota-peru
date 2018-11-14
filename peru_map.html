@@ -54,7 +54,7 @@ div.tooltip {
 <svg></svg>
 
 <div id="educationAndAge" style="margin: auto;">
-  <div id="educationChart" style="width:600px; float: left; font-family: Arial, Helvetica, sans-serif">
+  <div id="educationChart" style="width:650px; float: left; font-family: Arial, Helvetica, sans-serif">
     <div><h2 style="text-align: center">Level of Education in District</h2></div>
     <div id="chart"></div>
   </div>
@@ -64,19 +64,29 @@ div.tooltip {
       <input type="button" value="Remove Under 18 Data" id="MyButton" onclick="unloadChart();">
   </div>
 </div>
+<div id="poverty" style="margin: auto;">
+  <div id="pChart" style="width: 650px; float:left; font-family: Arial, Helvetica, sans-serif">
+    <div><h2 style="text-align: center">Level of Education in District</h2></div>
+    <div id="povertyChart"></div>
+  </div>
+  <div id="rChart" style="width:500px; float: left; font-family: Arial, Helvetica, sans-serif; padding-top: 100px; padding-left: 50px">
+    <div><h2 style="text-align: center">Level of Education in District</h2></div>
+    <div id="povertyChart"></div>
+  </div>
+</div>
 
 
 
 
 <script>
 
-var width = 960,
+var width = 650,
     height = 500,
     centered;
 
 var projection = d3.geoMercator()
   .scale(1500)
-  .center([-65, -9.3])
+  .center([-72, -9.3])
   .translate([width / 2, height / 2]);
 
 var path = d3.geoPath()
@@ -139,6 +149,151 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
       // .on('mouseout', mouseout)
       // .on('click', clicked);
 });
+
+// Radar chart
+var chart = bb.generate({
+  data: {
+    x: "x",
+    columns: [
+  ["x", "Data A", "Data B", "Data C", "Data D", "Data E"],
+  ["data1", 330, 350, 200, 380, 150],
+  ["data2", 130, 100, 30, 200, 80],
+  ["data3", 230, 153, 85, 300, 250]
+    ],
+    type: "radar",
+    labels: true
+  },
+  radar: {
+    axis: {
+      max: 400
+    },
+    level: {
+      depth: 4
+    },
+    direction: {
+      clockwise: true
+    }
+  },
+  bindto: "#rChart"
+});
+
+// Poverty Chart
+var pchart = bb.generate({
+  data: {
+    columns: [
+  ["data2", 2010, 2018, 2006]
+    ],
+    regions: {
+      data2: [
+        {
+          end: 3
+        }
+      ]
+    }
+  },
+  size:{
+      height:400,
+      width:600
+  },
+  legend: {
+      position: "right"
+  },
+  axis: {
+      rotated: true,
+      x: {
+        type: "category",
+        categories: [
+          "Extreme\n Poor",
+          "Poor",
+          "Not Poor"        ]
+      },
+      y: {
+        type: "category",
+        // inverted: true,
+        tick: {
+          count: 4,
+          values: [2006, 2010, 2014, 2018],
+          min: 2006,
+          max: 2018,
+          
+          // format: function(x) {
+          //   return 
+          // }
+        },
+        // label: {
+        //   text: "Population",
+        //   position: "outer-middle"
+        // }
+      }
+    },
+  bindto: "#povertyChart"
+});
+/*var povertyChart = bb.generate({
+  bindto: "#povertyChart",
+  size:{
+      height:400,
+      width:600
+    },
+    data: {
+      type: "line",
+        columns: [
+            ["poverty", 1, 2, 3, 1],
+        ],
+        regions: {
+          poverty: [{
+            start: 2006,
+            end: 2010,
+            style: {
+              dasharray: "6 2"
+            }
+          },
+          {
+            start: 2010,
+            end: 2014,
+            style: {
+              dasharray: "6 2"
+            }
+          }]
+        }
+    
+    },
+    legend: {
+      position: "right"
+    },
+    axis: {
+      x: {
+        label: {
+          text: "Year",
+          position: "outer-center"
+        },
+        type: "category",
+        categories: [
+          "2006",
+          "2010",
+          "2014",
+          "2018"
+        ]
+      },
+      y: {
+        type: "category",
+        // inverted: true,
+        tick: {
+          count: 3,
+          values: [1, 2, 3],
+          min: 1,
+          max: 3,
+          
+          // format: function(x) {
+          //   return 
+          // }
+        },
+        label: {
+          text: "Population",
+          position: "outer-middle"
+        }
+      }
+    }
+});*/
 
 //Education Line Chart
 var chart = bb.generate({
