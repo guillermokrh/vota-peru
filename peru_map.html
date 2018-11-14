@@ -10,6 +10,34 @@
 </head>
 <style>
 
+.dropdown-menu {
+  min-width: 200px;
+}
+.dropdown-menu.columns-2 {
+  min-width: 400px;
+}
+.dropdown-menu li a {
+  padding: 5px 15px;
+  font-weight: 300;
+}
+.multi-column-dropdown {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+.multi-column-dropdown li a {
+  display: block;
+  clear: both;
+  line-height: 1.428571429;
+  color: #333;
+  white-space: normal;
+}
+.multi-column-dropdown li a:hover {
+  text-decoration: none;
+  color: #262626;
+  background-color: #999;
+}
+
 .background {
   fill: #eee;
   pointer-events: all;
@@ -62,32 +90,43 @@ div.tooltip {
     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Select Region
     </button>
-    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-      <a class="dropdown-item" href="#">Amazonas</a>
-      <a class="dropdown-item" href="#">Ancash</a>
-      <a class="dropdown-item" href="#">Apurimac</a>
-      <a class="dropdown-item" href="#">Arequipa</a>
-      <a class="dropdown-item" href="#">Ayacucho</a>
-      <a class="dropdown-item" href="#">Cajamarca</a>
-      <a class="dropdown-item" href="#">Cusco</a>
-      <a class="dropdown-item" href="#">Huancavelica</a>
-      <a class="dropdown-item" href="#">Huanuco</a>
-      <a class="dropdown-item" href="#">Ica</a>
-      <a class="dropdown-item" href="#">Junin</a>
-      <a class="dropdown-item" href="#">La Libertad</a>
-      <a class="dropdown-item" href="#">Lambayeque</a>
-      <a class="dropdown-item" href="#">Lima</a>
-      <a class="dropdown-item" href="#">Loreto</a>
-      <a class="dropdown-item" href="#">Madre de Dios</a>
-      <a class="dropdown-item" href="#">Moquegua</a>
-      <a class="dropdown-item" href="#">Pasco</a>
-      <a class="dropdown-item" href="#">Piura</a>
-      <a class="dropdown-item" href="#">Puno</a>
-      <a class="dropdown-item" href="#">San Martin</a>
-      <a class="dropdown-item" href="#">Tacna</a>
-      <a class="dropdown-item" href="#">Tumbes</a>
-      <a class="dropdown-item" href="#">Callao</a>
-      <a class="dropdown-item" href="#">Ucayali</a>
+    <ul class="dropdown-menu multi-column columns-2">
+      <div class="row">
+        <div class="col-sm-6">
+          <ul class="multi-column-dropdown">
+    <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> -->
+      <li><a class="dropdown-item" href="#">Amazonas</a></li>
+      <li><a class="dropdown-item" href="#">Ancash</a></li>
+      <li><a class="dropdown-item" href="#">Apurimac</a></li>
+      <li><a class="dropdown-item" href="#">Arequipa</a></li>
+      <li><a class="dropdown-item" href="#">Ayacucho</a></li>
+      <li><a class="dropdown-item" href="#">Cajamarca</a></li>
+      <li><a class="dropdown-item" href="#">Cusco</a></li>
+      <li><a class="dropdown-item" href="#">Huancavelica</a></li>
+      <li><a class="dropdown-item" href="#">Huanuco</a></li>
+      <li><a class="dropdown-item" href="#">Ica</a></li>
+      <li><a class="dropdown-item" href="#">Junin</a></li>
+      <li><a class="dropdown-item" href="#">La Libertad</a></li>
+      <li><a class="dropdown-item" href="#">Lambayeque</a></li>
+    <!-- </div> -->
+  </ul>
+</div>
+    <div class="col-sm-6">
+      <ul class="multi-column-dropdown">
+        <li><a class="dropdown-item" href="#">Lima</a></li>
+        <li><a class="dropdown-item" href="#">Loreto</a></li>
+        <li><a class="dropdown-item" href="#">Madre de Dios</a></li>
+        <li><a class="dropdown-item" href="#">Moquegua</a></li>
+        <li><a class="dropdown-item" href="#">Pasco</a></li>
+        <li><a class="dropdown-item" href="#">Piura</a></li>
+        <li><a class="dropdown-item" href="#">Puno</a></li>
+        <li><a class="dropdown-item" href="#">San Martin</a></li>
+        <li><a class="dropdown-item" href="#">Tacna</a></li>
+        <li><a class="dropdown-item" href="#">Tumbes</a></li>
+        <li><a class="dropdown-item" href="#">Callao</a></li>
+        <li><a class="dropdown-item" href="#">Ucayali</a></li>
+      </ul>
+    </div>
     </div>
   </div>
 </div>
