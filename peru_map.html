@@ -36,6 +36,17 @@ text.big-text{
   font-size: 12px;
 }
 
+div.tooltip { 
+  position: absolute;     
+  text-align: center;     
+  width: 80px;          
+  height: 14px;         
+  padding: 2px;       
+  font: 12px sans-serif;    
+  background: #fff; 
+  border: 0px;        
+  pointer-events: none;     
+}
 </style>
 <body>
 
@@ -55,12 +66,6 @@ var width = 960,
     height = 500,
     centered;
 
-// Define color scale
-var color = d3.scaleLinear()
-  .domain([1, 20])
-  .clamp(true)
-  .range(['#fff', '#409A99']);
-
 var projection = d3.geoMercator()
   .scale(1500)
   .center([-65, -9.3])
@@ -73,6 +78,11 @@ var path = d3.geoPath()
 var svg = d3.select('svg')
   .attr('width', width)
   .attr('height', height);
+
+// Add tooltip
+var tooltip = d3.select("body").append("div") 
+        .attr("class", "tooltip")       
+        .style("opacity", 0);
 
 // Add background
 svg.append('rect')
@@ -94,13 +104,28 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
 
   // Update color scale domain based on data
   // color.domain([0, d3.max(features, nameLength)]);
+  const colors = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00'];
 
   // Draw each province as a path
   mapLayer.selectAll('path')
       .data(features)
     .enter().append('path')
       .attr('d', path)
-      .attr('vector-effect', 'non-scaling-stroke');
+      .attr('vector-effect', 'non-scaling-stroke')
+      .style('fill', () => colors[Math.floor(Math.random()*4+1)])
+      .on('mouseover', function(d){
+        tooltip.transition()
+        .duration(200)
+        .style("opacity",.9);
+        tooltip.html(d.properties.NOMBDEP)
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
+      })
+      .on("mouseout", function(d) {   
+            tooltip.transition()    
+            .duration(500)    
+            .style("opacity", 0);
+      });
       // .style('fill', fillFn)
       // .on('mouseover', mouseover)
       // .on('mouseout', mouseout)
