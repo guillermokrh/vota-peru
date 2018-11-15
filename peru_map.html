@@ -95,8 +95,8 @@ div.tooltip {
         <div class="col-sm-6">
           <ul class="multi-column-dropdown">
     <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> -->
-      <li><a class="dropdown-item" href="#">Amazonas</a></li>
-      <li><a class="dropdown-item" href="#">Ancash</a></li>
+      <li><a class="dropdown-item" href="#" onclick="loadCharts('Amazonas');">Amazonas </a></li>
+      <li><a class="dropdown-item" href="#" onclick="loadCharts('Ancash');">Ancash</a></li>
       <li><a class="dropdown-item" href="#">Apurimac</a></li>
       <li><a class="dropdown-item" href="#">Arequipa</a></li>
       <li><a class="dropdown-item" href="#">Ayacucho</a></li>
@@ -139,7 +139,6 @@ div.tooltip {
   <div id="ageChart" style="width:500px; float: left; font-family: Arial, Helvetica, sans-serif">
       <div><h2 style="text-align: center">Age Groups in District</h2></div>
       <div id="StackedBarChart"></div>
-      <input type="button" value="Remove Under 18 Data" id="MyButton" onclick="unloadChart();">
   </div>
 </div>
 <div id="poverty" style="margin: auto;">
@@ -374,7 +373,7 @@ var pchart = bb.generate({
 });*/
 
 //Education Line Chart
-var chart = bb.generate({
+var educationChart = bb.generate({
     bindto: "#chart",
     size:{
       height:400,
@@ -424,6 +423,7 @@ var ageGroupChart = bb.generate({
       width:600
     },
   data: {
+    /* this is default data*/
     columns: [
 	["<18", 100, 105, 100, 110],
 	["18-30", 130, 100, 100, 150],
@@ -477,12 +477,51 @@ var ageGroupChart = bb.generate({
   bindto: "#StackedBarChart"
 });
 
-/*remove data from the age group chart*/
-function unloadChart(){
-  ageGroupChart.load({
-		unload: ["<18"]
-	});
+var ageGroupChartMap = {
+  'Amazonas': [
+    ["<18", 200, 205, 200, 210],
+    ["18-30", 430, 400, 400, 450],
+    ["30-50", 330, 300, 400, 500],
+    [">50", 230, 200, 200, 200]
+    ],
+  'Ancash': [
+    ["<18", 100, 105, 100, 110],
+    ["18-30", 130, 100, 100, 150],
+    ["30-50", 230, 200, 300, 400],
+    [">50", 230, 200, 200, 300]
+    ]
 }
+
+var educationChartMap = {
+  'Amazonas': [
+            ["graduate school", 30, 15, 10, 40],
+            ["college", 250, 300, 275, 320],
+            ["high school", 240, 290, 325, 350],
+            ["secondary school", 10, 12, 13, 15],
+            ["primary school", 50, 75, 75, 50],
+            ["no school", 30, 20, 40, 50]
+        ],
+  'Ancash': [
+            ["graduate school", 30, 15, 10, 40],
+            ["college", 150, 200, 175, 220],
+            ["high school", 250, 300, 325, 350],
+            ["secondary school", 100, 120, 130, 140],
+            ["primary school", 50, 75, 75, 50],
+            ["no school", 30, 20, 40, 50]
+        ]
+}
+
+function loadCharts(name){
+  loadChart(ageGroupChart, ageGroupChartMap, name);
+  loadChart(educationChart, educationChartMap, name);
+}
+/*remove data from the age group chart*/
+function loadChart(c, m, name){
+  c.load({
+    columns: m[name]
+  });
+}
+
 
 </script>
 
