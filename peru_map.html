@@ -127,7 +127,7 @@ div.tooltip {
 </div>
 
 <div id="educationAndAge" style="margin: auto;">
-  <div id="educationChart" style="width:650px; float: left; font-family: Arial, Helvetica, sans-serif">
+  <div id="educationChart" style="width:750px; float: left; font-family: Arial, Helvetica, sans-serif">
     <div><h2 style="text-align: center">Level of Education in District</h2></div>
     <div id="chart"></div>
   </div>
@@ -138,13 +138,13 @@ div.tooltip {
 </div>
 
 <div id="partiesAndVoter" style="margin: auto;">
-  <div id="partyChart" style="width:650px; float: left; font-family: Arial, Helvetica, sans-serif">
+  <div id="partyChart" style="width:750px; float: left; font-family: Arial, Helvetica, sans-serif">
     <div><h2 style="text-align: center">Voting Comparisons for Parties</h2></div>
     <div id="partyVoterChart"></div>
   </div>
 </div>
 <div id="poverty" style="margin: auto;">
-  <div id="pChart" style="width: 650px; float:left; font-family: Arial, Helvetica, sans-serif">
+  <div id="pChart" style="width: 550px; float:left; font-family: Arial, Helvetica, sans-serif">
     <div><h2 style="text-align: center">Level of Education in District</h2></div>
     <div id="povertyChart"></div>
   </div>
@@ -364,17 +364,17 @@ var educationChart = bb.generate({
     bindto: "#chart",
     size:{
       height:400,
-      width:600
+      width:700
     },
     data: {
       type: "line",
         columns: [
-            ["graduate school", 30, 15, 10, 40],
-            ["college", 150, 200, 175, 220],
-            ["high school", 250, 300, 325, 350],
-            ["secondary school", 100, 120, 130, 140],
-            ["primary school", 50, 75, 75, 50],
-            ["no school", 30, 20, 40, 50]
+            ["Graduate school", 30, 15, 10, 40],
+            ["College", 150, 200, 175, 220],
+            ["High school", 250, 300, 325, 350],
+            ["Secondary school", 100, 120, 130, 140],
+            ["Primary school", 50, 75, 75, 50],
+            ["No school", 30, 20, 40, 50]
         ]
     },
     legend: {
@@ -478,38 +478,38 @@ var ageGroupChartMap = {
 }
 var educationChartMap = {
   'Amazonas': [
-            ["graduate school", 30, 15, 10, 40],
-            ["college", 250, 300, 275, 320],
-            ["high school", 240, 290, 325, 350],
-            ["secondary school", 10, 12, 13, 15],
-            ["primary school", 50, 75, 75, 50],
-            ["no school", 30, 20, 40, 50]
+            ["Graduate school", 30, 15, 10, 40],
+            ["College", 250, 300, 275, 320],
+            ["High school", 240, 290, 325, 350],
+            ["Secondary school", 10, 12, 13, 15],
+            ["Primary school", 50, 75, 75, 50],
+            ["No school", 30, 20, 40, 50]
         ],
   'Ancash': [
-            ["graduate school", 30, 15, 10, 40],
-            ["college", 150, 200, 175, 220],
-            ["high school", 250, 300, 325, 350],
-            ["secondary school", 100, 120, 130, 140],
-            ["primary school", 50, 75, 75, 50],
-            ["no school", 30, 20, 40, 50]
+            ["Graduate school", 30, 15, 10, 40],
+            ["College", 150, 200, 175, 220],
+            ["High school", 250, 300, 325, 350],
+            ["Secondary school", 100, 120, 130, 140],
+            ["Primary school", 50, 75, 75, 50],
+            ["No school", 30, 20, 40, 50]
         ]
 }
 
 var partyVoterChartMap = {
   'Amazonas': [
-            ["SENTIMIENTO AMAZONENSE REGIONAL", 300, 153, 161, 222],
-            ["MOVIMIENTO REGIONAL FUERZA AMAZONENSE", 260, 330, 115, 320],
-            ["OBRAS POR AMAZONAS", 340, 212, 225, 350],
-            ["VOTOS EN BLANCO", 120, 112, 323, 375],
-            ["ALIANZA PARA EL PROGRESO", 210, 312, 113, 175]
+            ["Sentimiento Amazonense Regional", 300, 153, 161, 222],
+            ["Movimiento Regional Ferrza Amazonense", 260, 330, 115, 320],
+            ["Obras Por Amazonas", 340, 212, 225, 350],
+            ["Votos El Blanco", 120, 112, 323, 375],
+            ["Alianza Para El Progreso", 210, 312, 113, 175]
         ],
   'Ancash': [
-            ["ALIANZA PARA EL PROGRESO", 310, 115, 110, 140],
-            ["PARTIDO DEMOCRATICO SOMOS PERU", 150, 200, 175, 220],
-            ["UNION POR EL PERU", 250, 300, 325, 350],
-            ["PERU POSIBLE", 100, 120, 130, 140],
-            ["PERU PATRIA SEGURA", 350, 275, 175, 250],
-            ["VOTOS NULOS", 230, 120, 340, 150]
+            ["Alianza Para El Progreso", 310, 115, 110, 140],
+            ["Partido Democratico Somos Peru", 150, 200, 175, 220],
+            ["Union Por El Peru", 250, 300, 325, 350],
+            ["Peru Posible", 100, 120, 130, 140],
+            ["Peru Patria Segura", 350, 275, 175, 250],
+            ["Votos Nulos", 230, 120, 340, 150]
         ]
 }
 
@@ -534,7 +534,7 @@ function unloadChart(c){
  var partiesVoterchart = bb.generate({
   size:{
      height:400,
-     width: 500
+     width: 750
     },
   data: {
     x : "x",
