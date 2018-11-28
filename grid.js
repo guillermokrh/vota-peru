@@ -21,12 +21,13 @@ function groupBy (data, iterator) {
   return results;
 }
 
+/* default grid values */ 
 function grid () {
   var config = {};
-  config.width = 500;
-  config.height = 1000;
-  config.colWidth = 50;
-  config.rowHeight = 50;
+  config.width = 1000;
+  config.height = 500;
+  config.colWidth = 25;
+  config.rowHeight = 25;
   config.sectionPadding = 100;
   config.marginLeft = config.colWidth;
   config.marginTop = config.sectionPadding;
@@ -122,10 +123,10 @@ function grid () {
 // TODO better export
 if (typeof root.define === "function" && root.define.amd) {
   define(["d3"], function(d3) {
-    d3.layout.grid = grid;
+    d3.grid = grid;
   });
 } else {
-  root.d3.layout.grid = grid;
+  root.d3.grid = grid;
 }
 
 }).call(this);

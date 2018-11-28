@@ -1,3 +1,5 @@
+
+/*helper functions*/
 function random (start, end) {
     var range = end - start;
     return start + Math.floor(Math.random() * range);
@@ -28,11 +30,22 @@ function random (start, end) {
     return str[0].toUpperCase() + str.substr(1);
   }
   
-  var width = 500;
-  var height = 1000;
-  var color = d3.scale.category10();
-  var sizeScale = d3.scale.quantile().domain([20, 40]).range(d3.range(20, 40, 4));
-  var delayScale = d3.scale.linear().domain([0, 400]).range([0, 300]);
+  /* set up color according to percentages */
+  function setColor(num){
+    if (num < 100){
+      return 'blue';
+    } else {
+      return 'gray';
+    }
+  }
+
+  /*set up map*/
+  var width = 1000;
+  var height = 500;
+  var color = d3.scaleOrdinal(d3.schemeCategory10);
+  var sizeScale = d3.scaleQuantile().domain([20, 40]).range(d3.range(20, 40, 4));
+  /*var delayScale = d3.scaleLinear().domain([0, 400]).range([0, 300]);*/
+ 
   
   var data = d3.range(0, 150).map(function (i) {
     return {
@@ -41,13 +54,13 @@ function random (start, end) {
       prop2: randomPick(['a', 'b', 'c', 'd', 'e']),
       x: random(width / 2 - 100, width / 2 + 100),
       y: random(height / 2 - 100, height / 2 + 100),
-      color: color(i),
-      shape: randomPick(['circle', 'square', 'ellipse']),
-      size: random(20, 40)
+      color: setColor(i),
+      shape: 'circle',
+      size: 20
     };
   });
   
-  var svg = d3.select('svg')
+  var svg = d3.select('#category')
     .attr('width', width)
     .attr('height', height);
   
@@ -76,12 +89,13 @@ function random (start, end) {
       .attr('rx', function (d) { return d.size / 2.5; })
       .attr('ry', function (d) { return d.size / 2; })
       .attr('fill', function (d) { return d.color; });
-  
-  var grid = d3.layout.grid()
+ 
+  /*set column width and column height here*/
+  var grid = d3.grid()
     .width(width)
     .height(height)
-    .colWidth(50)
-    .rowHeight(50)
+    .colWidth(25)
+    .rowHeight(25)
     .marginTop(75)
     .marginLeft(50)
     .sectionPadding(100)
@@ -92,10 +106,11 @@ function random (start, end) {
     svg.attr('height', grid.height());
     shapes.transition()
       .duration(750)
-      .delay(function (d) { return delayScale(d.groupIndex * 150 + d.index * 1); })
       .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')'; });
   }
   
+  //.delay(function (d) { return delayScale(d.groupIndex * 150 + d.index * 1); })
+
   function updateLabels () {
     var groups = grid.groups();
   
@@ -167,12 +182,13 @@ function random (start, end) {
   }
   
   groupByShape();
-  
+
+  /*
   document.getElementById('group-ascend').onclick = sortGroupAscend;
   document.getElementById('group-descend').onclick = sortGroupDescend;
   document.getElementById('size-ascend').onclick = sortSizeAscend;
   document.getElementById('size-descend').onclick = sortSizeDescend;
-  // document.getElementById('random').onclick = sortRandom;
   document.getElementById('groupby-shape').onclick = groupByShape;
   document.getElementById('groupby-size').onclick = groupBySize;
   document.getElementById('groupby-color').onclick = groupByColor;
+  */

@@ -152,8 +152,14 @@ div.tooltip {
   </div>
 </div>
 
+  <div id="categoryChart" style="width: 650px; float:left; font-family: Arial, Helvetica, sans-serif">
+    <div><h2 style="text-align: center">Percentage of Category</h2></div>
+    <svg id="category"></svg>
+  </div>
 
-
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
+  <script src="grid.js"></script>
+  <script src="basic_category.js"></script>
 
 <script>
 
@@ -305,72 +311,6 @@ var pchart = bb.generate({
     },
   bindto: "#povertyChart"
 });
-/*var povertyChart = bb.generate({
-  bindto: "#povertyChart",
-  size:{
-      height:400,
-      width:600
-    },
-    data: {
-      type: "line",
-        columns: [
-            ["poverty", 1, 2, 3, 1],
-        ],
-        regions: {
-          poverty: [{
-            start: 2006,
-            end: 2010,
-            style: {
-              dasharray: "6 2"
-            }
-          },
-          {
-            start: 2010,
-            end: 2014,
-            style: {
-              dasharray: "6 2"
-            }
-          }]
-        }
-    
-    },
-    legend: {
-      position: "right"
-    },
-    axis: {
-      x: {
-        label: {
-          text: "Year",
-          position: "outer-center"
-        },
-        type: "category",
-        categories: [
-          "2006",
-          "2010",
-          "2014",
-          "2018"
-        ]
-      },
-      y: {
-        type: "category",
-        // inverted: true,
-        tick: {
-          count: 3,
-          values: [1, 2, 3],
-          min: 1,
-          max: 3,
-          
-          // format: function(x) {
-          //   return 
-          // }
-        },
-        label: {
-          text: "Population",
-          position: "outer-middle"
-        }
-      }
-    }
-});*/
 
 //Education Line Chart
 var educationChart = bb.generate({
