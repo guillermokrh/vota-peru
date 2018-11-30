@@ -256,7 +256,19 @@ function clicked(d) {
       .duration(500)
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
       .style("stroke-width", 1.5 / k + "px");
+
+  d3.json('peru_data/peru_province.geojson', function(error, mapData){
+    var features = mapData.features;
+    selectedRegion = d.properties.NOMBDEP
+    for(var i=0; i<features.length; i++){
+      region = features[i].properties.FIRST_NOMB
+      if ( region === selectedRegion){
+        console.log(features[i])
+      }
+    }
+  });
 }
+
 //------------------------------------------------ End of MAP ----------------------------------------------------
 
 // ---------------------------------------------------- Radar chart ----------------------------------------------
