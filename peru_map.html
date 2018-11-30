@@ -185,8 +185,8 @@ var width = 650,
     height = 500,
     centered;
 var projection = d3.geoMercator()
-  .scale(1500)
-  .center([-72, -9.3])
+  .scale(1100)
+  .center([-65.2, -9.3])
   .translate([width / 2, height / 2]);
 var path = d3.geoPath()
   .projection(projection);
@@ -233,13 +233,32 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
             tooltip.transition()
             .duration(500)
             .style("opacity", 0);
-      });
-      // .style('fill', fillFn)
-      // .on('mouseover', mouseover)
-      // .on('mouseout', mouseout)
-      // .on('click', clicked);
+      })
+      .on('click', clicked);
 });
+function clicked(d) {
+  if (d && centered !== d) {
+    var centroid = path.centroid(d);
+    x = centroid[0];
+    y = centroid[1];
+    k = 2;
+    centered = d;
+  } else {
+    x = width / 2;
+    y = height / 2;
+    k = 1;
+    centered = null;
+  }
+  mapLayer.selectAll("path")
+      .classed("active", centered && function(d) { return d === centered; });
+
+  g.transition()
+      .duration(500)
+      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+      .style("stroke-width", 1.5 / k + "px");
+}
 //------------------------------------------------ End of MAP ----------------------------------------------------
+
 // ---------------------------------------------------- Radar chart ----------------------------------------------
 /*var chart = bb.generate({
   data: {
@@ -267,7 +286,6 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
   bindto: "#rChart"
 });*/
 // ------------------------------------------- End of Radar Chart ------------------------------------------------
-
 
 //--------------------------------------------------- Poverty Chart ----------------------------------------------
 
@@ -603,7 +621,6 @@ svg.append("g")
 });*/
 //---------------------------------------------- End of Poverty Chart -------------------------------------------
 
-
 //------------------------------------------------ Education Line Chart ------------------------------------------
 var educationChart = bb.generate({
     bindto: "#chart",
@@ -648,6 +665,7 @@ var educationChart = bb.generate({
     }
 });
 //------------------------------------------ End of Education Chart ---------------------------------------------
+
 //-------------------------------------------- Age Groups Chart -------------------------------------------------
 var ageGroupChart = bb.generate({
   size:{
@@ -657,9 +675,9 @@ var ageGroupChart = bb.generate({
   data: {
     /* this is default data*/
     columns: [
-	["<18", 100, 105, 100, 110],
-	["18-30", 130, 100, 100, 150],
-	["30-50", 230, 200, 200, 300],
+  ["<18", 100, 105, 100, 110],
+  ["18-30", 130, 100, 100, 150],
+  ["30-50", 230, 200, 200, 300],
   [">50", 230, 200, 200, 300]
     ],
     type: "bar",
@@ -709,6 +727,7 @@ var ageGroupChart = bb.generate({
   bindto: "#StackedBarChart"
 });
 //------------------------------------------ End of Age Groups Chart ---------------------------------------------
+
 //------------------------------------ Voting Comparisons for Party Chart ----------------------------------------
 var ageGroupChartMap = {
   'Amazonas': [
@@ -788,10 +807,10 @@ function unloadChart(c){
     x : "x",
     columns: [
     ["x", 2006, 2010, 2014, 2018],
-	["Party 1", 30, 350, 200, 380],
-	["Party 2", 130, 100, 10, 200],
-	["Party 3", 230, 153, 85, 300],
-	["Party 4", 210, 133, 285, 123],
+  ["Party 1", 30, 350, 200, 380],
+  ["Party 2", 130, 100, 10, 200],
+  ["Party 3", 230, 153, 85, 300],
+  ["Party 4", 210, 133, 285, 123],
     ],
 
     type: "bubble",
@@ -823,6 +842,4 @@ function unloadChart(c){
 });
  //------------------------------ End of Voting Comparisons for Party Chart --------------------------------------
 </script>
-
-
 </script>
