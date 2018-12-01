@@ -154,8 +154,8 @@ function random (start, end) {
     console.log(d3.csvParseRows(text));
   });*/
   function test(mydata){
-    console.log("test of data");
-    console.log(mydata);
+    // console.log("test of data");
+    // console.log(mydata);
     return mydata;
   }
 
@@ -166,7 +166,7 @@ function random (start, end) {
     thisdata = test(data) 
   });
 
-  console.log(thisdata);
+  // console.log(thisdata);
 
   /*set up map*/
   var width = 1000;

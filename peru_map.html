@@ -222,19 +222,25 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
   var features = mapData.features;
   // Update color scale domain based on data
   // color.domain([0, d3.max(features, nameLength)]);
-  const colors = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00'];
-  
+  const colors = getColors("R");
+  // console.log(features[0].properties.NOMBDEP);
   // Draw each province as a path
   mapLayer.selectAll('path')
       .data(features)
       .enter().append('path')
       .attr('d', path)
       .attr('vector-effect', 'non-scaling-stroke')
-      .style('fill', () => colors[Math.floor(Math.random()*4+1)])
+      .style('fill', function(d){
+        // console.log(d.properties.NOMBDEP);
+        return colors[fillColors(d.properties.NOMBDEP)];
+        /*if (d.properties.NOMBDEP == 'AMAZONAS') {
+          return colors[0];
+        }*/
+      })
       .on('mouseover', function(d){
         tooltip.transition()
         .duration(200)
-        .style("opacity",.9);
+        .style("opacity",0.9);
         tooltip.html(d.properties.NOMBDEP)
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
@@ -246,6 +252,30 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
       })
       .on('click', clicked);
 });
+function fillColors(regionName) {
+  var flag;
+  d3.csv("csv_data/ERegionalesMunicipales2014_MunicipalElectionResults2014_Regional.csv", function(d) {
+    // console.log(d[2].REGION);
+    for (var i = 0; i < 10  ; i++) {
+      if (d[i].REGION == "AMAZONAS") {
+        console.log(d[i].REGION);
+        // console.log("yay", d[i].REGION);
+        flag = 0;
+        break;
+      }
+      else{
+        flag = 2;
+        break;
+      }
+    }
+    // console.log(d);
+    // return d;
+  });
+  // console.log(e2014);
+  return flag;
+}
+
+
 function clicked(d) {
 
   d3.json('peru_data/peru_province.geojson', function(error, mapData){
@@ -326,7 +356,15 @@ function usZoom(d) {
       .style("stroke-width", 1.5 / k + "px");
 }
 
+function getColors(param1) {
 
+
+  
+  // if (d == "R") {
+    const colors = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000'];
+  // }
+  return colors;
+}
 
 //------------------------------------------------ End of MAP ----------------------------------------------------
 
