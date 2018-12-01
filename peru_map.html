@@ -223,7 +223,7 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
   // Update color scale domain based on data
   // color.domain([0, d3.max(features, nameLength)]);
   const colors = getColors("R");
-  // console.log(features[0].properties.NOMBDEP);
+  
   // Draw each province as a path
   mapLayer.selectAll('path')
       .data(features)
@@ -232,7 +232,7 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
       .attr('vector-effect', 'non-scaling-stroke')
       .style('fill', function(d){
         // console.log(d.properties.NOMBDEP);
-        return colors[fillColors(d.properties.NOMBDEP)];
+        return 0;//colors[fillColors(d.properties.NOMBDEP)];
         /*if (d.properties.NOMBDEP == 'AMAZONAS') {
           return colors[0];
         }*/
@@ -241,7 +241,8 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
         tooltip.transition()
         .duration(200)
         .style("opacity",0.9);
-        tooltip.html(d.properties.NOMBDEP)
+        console.log("a",fillColors(d.properties.NOMBDEP));
+        tooltip.html(fillColors(d.properties.NOMBDEP))
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
       })
@@ -252,12 +253,11 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
       })
       .on('click', clicked);
 });
+
+  var flag = [];
 function fillColors(regionName) {
-  var flag;
   d3.csv("csv_data/ERegionalesMunicipales2014_MunicipalElectionResults2014_Regional.csv", function(d) {
-    // console.log(d[2].REGION);
-    for (var i = 0; i < 10  ; i++) {
-      if (d[i].REGION == "AMAZONAS") {
+      /*if (d[i].REGION == "AMAZONAS") {
         console.log(d[i].REGION);
         // console.log("yay", d[i].REGION);
         flag = 0;
@@ -266,13 +266,23 @@ function fillColors(regionName) {
       else{
         flag = 2;
         break;
-      }
-    }
+      }*/
+    // }
     // console.log(d);
     // return d;
+    var abc = d3.nest()
+                .key(function(d2){
+                  return d2.REGION;
+                })
+                .entries(d);
+    for (var i = 0; i < abc.length; i++) {
+      if (abc[i].key == regionName) {
+        flag = (abc[i].values[0].POLITICAL_ORGANIZATION);
+      }
+    }
   });
-  // console.log(e2014);
-  return flag;
+  console.log(flag);
+  return JSON.stringify(flag);
 }
 
 
