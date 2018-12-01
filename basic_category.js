@@ -40,7 +40,7 @@ function random (start, end) {
   }
 
   // More helper functions
-  function updateLabels () {
+  function updateLabels (grid,svg) {
     var groups = grid.groups();
   
     // Provide d3 a key function so that labels are animated correctly
@@ -51,13 +51,13 @@ function random (start, end) {
         .attr('y', function (d) { return d.y - 40; })
         .style('opacity', 0);
     labels.exit()
-        .transition()
+        .transition(grid,svg)
         .style('opacity', 0)
       .remove();
   
     labels
       .text(function (d) { return capitalize(d.name) + ': (' + d.data.length + ')'; })
-      .transition()
+      .transition(grid,svg)
         .duration(750)
         .attr('x', 30)
         .attr('y', function (d) { return d.y - 40; })
@@ -67,53 +67,53 @@ function random (start, end) {
   function sortGroupAscend () {
     grid.sort(ascending);
   
-    updateLabels();
-    transition();
+    updateLabels(grid,svg);
+    transition(grid,svg);
   }
   
   function sortGroupDescend () {
     grid.sort(descending);
   
-    updateLabels();
-    transition();
+    updateLabels(grid,svg);
+    transition(grid,svg);
   }
   
   function sortSizeAscend () {
     grid.sort(null, ascending);
-    transition();
+    transition(grid,svg);
   }
   
   function sortSizeDescend () {
     grid.sort(null, descending);
-    transition();
+    transition(grid,svg);
   }
   
   function sortRandom () {
     grid.sort(randomComparator, randomComparator)
-    transition();
+    transition(grid,svg);
   }
   
-  function groupByShape () {
+  function groupByShape (grid, svg,shapes) {
     grid.groupBy('shape');
-    transition();
+    transition(grid,svg,shapes);
   }
   
   function groupBySize () {
     grid.groupBy(function (d) {
       return sizeScale(d.size);
     });
-    transition();
+    transition(grid,svg);
   }
   
   function groupByColor () {
     grid.groupBy('color');
-    transition();
+    transition(grid,svg);
   }
 
-  function transition () {
-    updateLabels();
+  function transition (grid,svg,shapes) {
+    updateLabels(grid,svg);
     svg.attr('height', grid.height());
-    shapes.transition()
+    shapes.transition(grid,svg,shapes)
       .duration(750)
       .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')'; });
   }
@@ -159,14 +159,24 @@ function random (start, end) {
     return mydata;
   }
 
-  //load the data
-  var thisdata;
-  d3.csv("csv_data/candidates_mini.csv", function(data){
-    //console.log(data[2]);
-    thisdata = test(data) 
-  });
+  //Try out the queue
+  
 
-  console.log(thisdata);
+  //filenames of data
+  var filenames = ["csv_data/candidates_mini.csv", "csv_data/afiliaciones_mini.csv"];
+
+  var queue = d3.queue();
+
+  filenames.forEach(function(filename) {
+    queue.defer(d3.csv, filename);
+  });
+  
+  var grid;
+  queue.awaitAll(function(error, csvDataSets) {
+    if(error) throw error;
+    //CSV Data sets is an array of CSV data
+    console.log("printing csv data sets");
+    console.log(csvDataSets);
 
   /*set up map*/
   var width = 1000;
@@ -174,10 +184,10 @@ function random (start, end) {
   var color = d3.scaleOrdinal(d3.schemeCategory10);
   var sizeScale = d3.scaleQuantile().domain([20, 40]).range(d3.range(20, 40, 4));
   /*var delayScale = d3.scaleLinear().domain([0, 400]).range([0, 300]);*/
- 
+
   //Add the Data 
   //Rows 0 to 1 are the headers, row 2 and on are the data 
- 
+
   percentA = 20.5;
   percentB = 80; 
   num_icons = 100;
@@ -211,6 +221,78 @@ function random (start, end) {
       .attr('fill', function (d) { return d.color; });
   
   /*set column width and column height here*/
+  grid = d3.grid()
+    .width(width)
+    .height(height)
+    .colWidth(25)
+    .rowHeight(25)
+    .marginTop(75)
+    .marginLeft(50)
+    .sectionPadding(100)
+    .data(data);
+  
+  //.delay(function (d) { return delayScale(d.groupIndex * 150 + d.index * 1); })
+  
+   groupByShape(grid,svg,shapes);
+  });
+
+
+  //load the data
+  /*
+  var thisdata;
+  d3.csv("csv_data/candidates_mini.csv", function(data){
+    //console.log(data[2]);
+    thisdata = test(data) 
+  });
+
+  console.log("this data test");
+  console.log("this data: " + thisdata);
+  */
+
+  /*set up map*/
+  /*
+  var width = 1000;
+  var height = 500;
+  var color = d3.scaleOrdinal(d3.schemeCategory10);
+  var sizeScale = d3.scaleQuantile().domain([20, 40]).range(d3.range(20, 40, 4));
+  //var delayScale = d3.scaleLinear().domain([0, 400]).range([0, 300]);
+
+  //Add the Data 
+  //Rows 0 to 1 are the headers, row 2 and on are the data 
+
+  percentA = 20.5;
+  percentB = 80; 
+  num_icons = 100;
+  var data = d3.range(0, num_icons).map(function (i) {
+    return {
+      index: i,
+      prop1: randomPick(['a', 'b', 'c']),
+      prop2: randomPick(['a', 'b', 'c', 'd', 'e']),
+      x: random(width / 2 - 100, width / 2 + 100),
+      y: random(height / 2 - 100, height / 2 + 100),
+      color: setColor(i, percentA, percentB),
+      shape: 'circle',
+      size: 20
+    };
+  });
+  
+  var svg = d3.select('#category')
+    .attr('width', width)
+    .attr('height', height);
+  
+  var shapes = svg.selectAll('.shape').data(data)
+    .enter()
+      .append('g')
+        .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')'; })
+        .attr('data-size', function (d) { return d.size; })
+        .attr('data-shape', function (d) { return d.shape; });
+  
+  var circles = shapes.filter(function (d) { return d.shape === 'circle'; })
+    .append('circle')
+      .attr('r', function (d) { return d.size / 2; })
+      .attr('fill', function (d) { return d.color; });
+  
+  //set column width and column height here
   var grid = d3.grid()
     .width(width)
     .height(height)
@@ -222,16 +304,13 @@ function random (start, end) {
     .data(data);
   
   //.delay(function (d) { return delayScale(d.groupIndex * 150 + d.index * 1); })
-
   
   groupByShape();
-
-  /*
-  document.getElementById('group-ascend').onclick = sortGroupAscend;
-  document.getElementById('group-descend').onclick = sortGroupDescend;
-  document.getElementById('size-ascend').onclick = sortSizeAscend;
-  document.getElementById('size-descend').onclick = sortSizeDescend;
-  document.getElementById('groupby-shape').onclick = groupByShape;
-  document.getElementById('groupby-size').onclick = groupBySize;
-  document.getElementById('groupby-color').onclick = groupByColor;
+  //document.getElementById('group-ascend').onclick = sortGroupAscend;
+  //document.getElementById('group-descend').onclick = sortGroupDescend;
+  //document.getElementById('size-ascend').onclick = sortSizeAscend;
+  //document.getElementById('size-descend').onclick = sortSizeDescend;
+  //document.getElementById('groupby-shape').onclick = groupByShape;
+  //document.getElementById('groupby-size').onclick = groupBySize;
+  //document.getElementById('groupby-color').onclick = groupByColor;
   */
