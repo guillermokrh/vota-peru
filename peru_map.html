@@ -218,14 +218,6 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
   // color.domain([0, d3.max(features, nameLength)]);
   const colors = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00'];
   
-  // var statePaths = svg.selectAll('.state')
-  //       .data(features)
-  //       .enter().append('path')
-  //       .attr('class', 'state')
-  //       .attr('d', path);
-        // .style('fill', function (d) { return color(d.properties.unemployment) })
-        // .on('click', function (d) { stateZoom(d.id) })
-  
   // Draw each province as a path
   mapLayer.selectAll('path')
       .data(features)
@@ -248,56 +240,7 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
       })
       .on('click', clicked);
 });
-function clicked(d) {/*
-  var flag = 0;
-  var t = d3.transition().duration(800);
-  if (d && centered !== d) {
-    var centroid = path.centroid(d);
-    x = centroid[0];
-    y = centroid[1];
-    k = 2;
-    centered = d;
-  } else {
-    x = width / 2;
-    y = height / 2;
-    k = 1;
-    centered = null;
-  }
-  mapLayer.selectAll("path")
-      .classed("active", centered && function(d) { return d === centered; });
-
-  g.transition()
-      .duration(500)
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-      .style("stroke-width", 1.5 / k + "px");
-
-  d3.json('peru_data/peru_province.geojson', function(error, mapData){
-    var features = mapData.features;
-    var province_features = [];
-    const colors = ['#e41a1c', '#377eb8', '#4daf4a', '#984ea3', '#ff7f00'];
-    selectedRegion = d.properties.NOMBDEP
-    for(var i=0; i<features.length; i++){
-      region = features[i].properties.FIRST_NOMB
-      if ( region === selectedRegion){
-        province_features.push(features[i]);
-        var countyPaths = mapLayer.selectAll('.county')
-                               .data(province_features);
-        var enterCountyPaths = countyPaths.enter().append('path')
-        .attr('class', 'county')
-        .attr('d', path)
-        .on('click',function (argument) {
-          countyPaths.exit().transition(t)
-            .attr('d', path)
-            .style('opacity', 0)
-            .remove()
-        });
-        // .style('fill', () => colors[Math.floor(Math.random()*4+1)]);
-        
-
-      }
-    }
-    console.log(province_features);
-  });*/
+function clicked(d) {
 
   d3.json('peru_data/peru_province.geojson', function(error, mapData){
     var features = mapData.features;
@@ -340,23 +283,6 @@ function clicked(d) {/*
       .duration(500)
       .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
       .style("stroke-width", 1.5 / k + "px");
-        /*projection.fitExtent(
-            [[padding, padding], [width - padding, height - padding]],
-            province_features
-        )
-
-        // mapLayer.transition(t)
-        //     .attr('d', path)
-        //     .style('fill', '#444')
-
-        // enterCountyPaths.transition(t)
-        //     .attr('d', path)
-        //     .style('opacity', 1)
-
-        countyPaths.exit().transition(t)
-            .attr('d', path)
-            .style('opacity', 0)
-            .remove();*/
  });         
 }
 function usZoom(d) {
@@ -365,7 +291,6 @@ function usZoom(d) {
 
         mapLayer.transition(t)
             .attr('d', path);
-            // .style('fill', function (d) { return color(d.properties.unemployment) })
 
         mapLayer.selectAll('.county')
             .data([])
