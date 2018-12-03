@@ -1,818 +1,551 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<html lang="en">
 
-<head>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-  <script src="https://d3js.org/d3.v4.min.js"></script>
-  <link rel="stylesheet" href="https://naver.github.io/billboard.js/release/latest/dist/billboard.min.css">
-  <script src="https://naver.github.io/billboard.js/release/latest/dist/billboard.min.js"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <script src="https://d3js.org/d3-queue.v3.min.js"></script>
-  <script src="https://unpkg.com/d3-simple-slider/build/d3-simple-slider.js"></script>
-</head>
-<style>
-.dropdown-menu {
-  min-width: 200px;
-}
-.dropdown-menu.columns-2 {
-  min-width: 400px;
-}
-.dropdown-menu li a {
-  padding: 5px 15px;
-  font-weight: 300;
-}
-.multi-column-dropdown {
-  list-style: none;
-  margin: 0px;
-  padding: 0px;
-}
-.multi-column-dropdown li a {
-  display: block;
-  clear: both;
-  line-height: 1.428571429;
-  color: #333;
-  white-space: normal;
-}
-.multi-column-dropdown li a:hover {
-  text-decoration: none;
-  color: #262626;
-  background-color: #999;
-}
-.background {
-  fill: #eee;
-  pointer-events: all;
-}
-.map-layer {
-  fill: #fff;
-  stroke: #aaa;
-}
-.effect-layer{
-  pointer-events:none;
-}
-text{
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-weight: 300;
-}
-text.big-text{
-  font-size: 30px;
-  font-weight: 400;
-}
-.effect-layer text, text.dummy-text{
-  font-size: 12px;
-}
-div.tooltip {
-  position: absolute;
-  vertical-align: middle;
-  text-align: center;
-  width: 110px;
-  height: 16px;
-  padding: 2px;
-  font: 12px sans-serif;
-  background: #fff;
-  border: 0px;
-  pointer-events: none;
-}
-/*For Poverty chart*/
-svg {
-    font-family: Sans-Serif, Arial;
-}
-.line {
-  stroke-width: 2;
-  fill: none;
-}
+  <head>
 
-.axis path {
-  stroke: black;
-}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-.text {
-  font-size: 12px;
-}
+    <title>Vota Peru</title>
 
-.title-text {
-  font-size: 12px;
-}
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-</style>
-<body>
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-<div style="margin: auto;"
-  <div><h1 style="text-align: center">VOTA PERU</h1></div>
-</div>
-<div style="margin: auto;">
-  <div style="width:650px; float: left; font-family: Arial, Helvetica, sans-serif">
-    <svg></svg>
-    <div class="row align-items-center">
-      <div class="col-sm-2">
-        <p id="value3"></p>
-      </div>
-      <div class="col-sm">
-        <br>
-        <div id="slider3"></div>
-      </div>
-    </div>
-  </div>
-  <div class="dropdown" style="width:500px; height: 500px; padding-left: 50px; padding-top: 50px; float: left; font-family: Arial, Helvetica, sans-serif">
-    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-      Select Region
-    </button>
-    <ul class="dropdown-menu multi-column columns-2">
-      <div class="row">
-        <div class="col-sm-6">
-          <ul class="multi-column-dropdown">
-    <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> -->
-      <li><a class="dropdown-item" href="#" onclick="loadCharts('Amazonas');">Amazonas </a></li>
-      <li><a class="dropdown-item" href="#" onclick="loadCharts('Ancash');">Ancash</a></li>
-      <li><a class="dropdown-item" href="#">Apurimac</a></li>
-      <li><a class="dropdown-item" href="#">Arequipa</a></li>
-      <li><a class="dropdown-item" href="#">Ayacucho</a></li>
-      <li><a class="dropdown-item" href="#">Cajamarca</a></li>
-      <li><a class="dropdown-item" href="#">Cusco</a></li>
-      <li><a class="dropdown-item" href="#">Huancavelica</a></li>
-      <li><a class="dropdown-item" href="#">Huanuco</a></li>
-      <li><a class="dropdown-item" href="#">Ica</a></li>
-      <li><a class="dropdown-item" href="#">Junin</a></li>
-      <li><a class="dropdown-item" href="#">La Libertad</a></li>
-      <li><a class="dropdown-item" href="#">Lambayeque</a></li>
-    <!-- </div> -->
-  </ul>
-</div>
-    <div class="col-sm-6">
-      <ul class="multi-column-dropdown">
-        <li><a class="dropdown-item" href="#">Lima</a></li>
-        <li><a class="dropdown-item" href="#">Loreto</a></li>
-        <li><a class="dropdown-item" href="#">Madre de Dios</a></li>
-        <li><a class="dropdown-item" href="#">Moquegua</a></li>
-        <li><a class="dropdown-item" href="#">Pasco</a></li>
-        <li><a class="dropdown-item" href="#">Piura</a></li>
-        <li><a class="dropdown-item" href="#">Puno</a></li>
-        <li><a class="dropdown-item" href="#">San Martin</a></li>
-        <li><a class="dropdown-item" href="#">Tacna</a></li>
-        <li><a class="dropdown-item" href="#">Tumbes</a></li>
-        <li><a class="dropdown-item" href="#">Callao</a></li>
-        <li><a class="dropdown-item" href="#">Ucayali</a></li>
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- d3 v4 -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <!-- d3 queue v3 -->
+    <script src="https://d3js.org/d3-queue.v3.min.js"></script>
+
+    <!-- billboardJS for charts -->
+    <link rel="stylesheet" href="https://naver.github.io/billboard.js/release/latest/dist/billboard.min.css">
+    <script src="https://naver.github.io/billboard.js/release/latest/dist/billboard.min.js"></script>
+
+    <!-- Slider for the map -->
+    <script src="https://unpkg.com/d3-simple-slider/build/d3-simple-slider.js"></script>
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    
+
+  </head>
+
+  <body id="page-top">
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+      <!-- <div> -->
+        
+        <a class="navbar-brand mr-1" style="margin: auto;" href="index.html"><i class="navbar-brand mr-1 fas fa-fw fa-hand-peace"></i>VotaPeru</a>
+      <!-- </div> -->
+      <!-- <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+      </button> -->
+
+      <!-- Navbar Search -->
+      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search candidate or party" aria-label="Search" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Navbar -->
+      <ul class="navbar-nav ml-auto ml-md-0">
+        <!-- <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-bell fa-fw"></i>
+            <span class="badge badge-danger">9+</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown no-arrow mx-1">
+          <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-envelope fa-fw"></i>
+            <span class="badge badge-danger">7</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+            <a class="dropdown-item" href="#">Action</a>
+            <a class="dropdown-item" href="#">Another action</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#">Something else here</a>
+          </div>
+        </li>
+        <li class="nav-item dropdown no-arrow">
+          <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-user-circle fa-fw"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item" href="#">Settings</a>
+            <a class="dropdown-item" href="#">Activity Log</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">Logout</a>
+          </div>
+        </li> -->
       </ul>
+
+    </nav>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="sidebar navbar-nav toggled">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">
+            <i class="fas fa-fw fa-map"></i>
+            <span>Map of Peru</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Pages</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <h6 class="dropdown-header">Login Screens:</h6>
+            <a class="dropdown-item" href="login.html">Login</a>
+            <a class="dropdown-item" href="register.html">Register</a>
+            <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Other Pages:</h6>
+            <a class="dropdown-item" href="404.html">404 Page</a>
+            <a class="dropdown-item" href="blank.html">Blank Page</a>
+          </div>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="charts.html">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Party Comparisons</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="tables.html">
+            <i class="fas fa-fw fa-id-card"></i>
+            <span>Candidate Comparisons</span></a>
+        </li>
+      </ul>
+
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Area Chart Example-->
+          <div class="card mb-3">
+            <div class="card-header">
+              <!-- <i class="fas fa-chart-area"></i> -->
+              Map of Peru</div>
+              <div class="card-body">
+                <div style="float: right; margin: auto; width: auto;">
+                  <h1>Info about the region</h1>
+                </div>
+                <div style="float: left;">
+                  <svg></svg>
+                </div>
+                <!-- <canvas id="myAreaChart" width="100%" height="30"></canvas> -->
+                
+                <div class="row align-items-center" style="float: left;">
+                  <!-- <div class="col-sm-2">
+                    <p id="value3"></p>
+                  </div> -->
+                  <div class="col-lg">
+                    <div id="slider3"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer small text-muted">Click on the regions to view Provinces</div>
+          </div>
+
+          <!-- DataTables Example -->
+          <div class="card mb-3">
+            <div class="card-header">
+              <!-- <i class="fas fa-table"></i> -->
+              Region Information</div>
+            <div class="card-body">
+              <div id="educationAndAge" style="margin: auto;">
+                <div id="educationChart" style="width:550px; float: left; font-family: Arial, Helvetica, sans-serif">
+                  <div><h2 style="text-align: center">Level of Education in District</h2></div>
+                  <div id="chart"></div>
+                </div>
+                <div id="ageChart" style="width:550px; float: right; font-family: Arial, Helvetica, sans-serif">
+                    <div><h2 style="text-align: center">Age Groups in District</h2></div>
+                    <div id="StackedBarChart"></div>
+                </div>
+              </div>
+            </div>
+            <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+        <!-- Sticky Footer -->
+        <!-- <footer class="sticky-footer">
+          <div class="container my-auto">
+            <div class="copyright text-center my-auto">
+              <span>Vota Peru 2018</span>
+            </div>
+          </div>
+        </footer> -->
+
+      </div>
+      <!-- /.content-wrapper -->
+
     </div>
-    </div>
-  </div>
-</div>
+    <!-- /#wrapper -->
 
-<div id="educationAndAge" style="margin: auto;">
-  <div id="educationChart" style="width:750px; float: left; font-family: Arial, Helvetica, sans-serif">
-    <div><h2 style="text-align: center">Level of Education in District</h2></div>
-    <div id="chart"></div>
-  </div>
-  <div id="ageChart" style="width:500px; float: left; font-family: Arial, Helvetica, sans-serif">
-      <div><h2 style="text-align: center">Age Groups in District</h2></div>
-      <div id="StackedBarChart"></div>
-  </div>
-</div>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
 
-<div id="partiesAndVoter" style="margin: auto;">
-  <div id="partyChart" style="width:750px; float: left; font-family: Arial, Helvetica, sans-serif">
-    <div><h2 style="text-align: center">Voting Comparisons for Parties</h2></div>
-    <div id="partyVoterChart"></div>
-  </div>
-</div>
-<div id="poverty" style="margin: auto;">
-  <div id="pChart" style="width: 550px; float:left; font-family: Arial, Helvetica, sans-serif">
-    <div><h2 style="text-align: center">Poverty level in District</h2></div>
-    <div id="povertyChart"></div>
-  </div>
-  <!-- <div id="rChart" style="width:500px; float: left; font-family: Arial, Helvetica, sans-serif; padding-top: 100px; padding-left: 50px">
-    <div><h2 style="text-align: center">Level of Education in District</h2></div>
-    <div id="povertyChart"></div>
-  </div> -->
-</div>
+    <!-- Logout Modal-->
+    <!-- <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+          </div>
+          <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+          <div class="modal-footer">
+            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+            <a class="btn btn-primary" href="login.html">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div> -->
 
-  <div id="categoryChart" style="width: 650px; float:left; font-family: Arial, Helvetica, sans-serif">
-    <div><h2 style="text-align: center">Percentage of Category</h2></div>
-    <svg id="category"></svg>
-  </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/lodash.js/2.4.1/lodash.js"></script>
-  <script src="grid.js"></script>
-  <script src="basic_category.js"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-<script>
-  //------------------------------------------------------- MAP --------------------------------------------------
-var width = 650,
-    height = 500,
+    <!-- Page level plugin JavaScript-->
+    <script src="vendor/datatables/jquery.dataTables.js"></script>
+    <script src="vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin.min.js"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="js/demo/datatables-demo.js"></script>
+
+  </body>
+  <script>
+    var width = 650,
+    height = 400,
     padding = 20,
     centered;
 
-var projection = d3.geoMercator()
-  .scale(1100)
-  .center([-65.2, -9.3])
-  .translate([width / 2, height / 2]);
-var path = d3.geoPath()
-  .projection(projection);
-// Set svg width & height
-var svg = d3.select('svg')
-  .attr('width', width)
-  .attr('height', height);
-// Add tooltip
-var tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
-// Add background
-svg.append('rect')
-  .attr('class', 'background')
-  .attr('width', width)
-  .attr('height', height);
-  // .on('click', clicked);
-var g = svg.append('g');
-var effectLayer = g.append('g')
-  .classed('effect-layer', true);
-var mapLayer = g.append('g')
-  .classed('map-layer', true)
-  .attr('class', 'state');
-
-//  --- Slider ---
-var data3 = d3.range(0, 3).map(function (d) { return new Date(2006 + (d*4), 4, 3); });
-// console.log(data3);
-  var slider3 = d3.sliderTop()
-    .min(d3.min(data3))
-    .max(d3.max(data3))
-    .step((1000 * 60 * 60 * 24 * 365)*4)
-    .width(400)
-    .tickFormat(d3.timeFormat('%Y'))
-    .tickValues(data3)
-    .on('onchange', val => {
-      d3.select("p#value3").text(d3.timeFormat('%Y')(val));
-      var value = d3.timeFormat('%Y')(val);
-      update(value);
-    });
-
-function update(value){
-  d3.selectAll("path")
-    .style("fill", colorUpdate(value, features));
-};
-var features;
-
-function colorUpdate(value){
-  // d = data;
-
-// d3.json('peru_data/peru_region.geojson', function(error, mapData) {
-//   features = mapData.features;});
-d3.selectAll('path').remove();
-
-
-d3.json('peru_data/peru_region.geojson', function(error, mapData) {
-  var features = mapData.features;
-  // Update color scale domain based on data
-  // color.domain([0, d3.max(features, nameLength)]);
-  const colors = getColors("R");
-  // console.log("features color", features[1].properties.Color_2010);
-  // Draw each province as a path
-  mapLayer.selectAll('path')
-      .data(features)
-      .enter().append('path')
-      .attr('d', path)
-      .attr('vector-effect', 'non-scaling-stroke')
-      .style('fill', function(d){
-        if (value == 2006){
-          // console.log("2006")
-          return d.properties.Color_2006;
-        }
-        else if(value == 2010){
-          return d.properties.Color_2010;
-        }
-        else{
-          // console.log("200")
-          return d.properties.Color_2014;
-        }   
-    })
-      .on('mouseover', function(d){
-        tooltip.transition()
-        .duration(200)
-        .style("opacity",0.9);
-
-        if (value == 2006){
-          // console.log("2006")
-          party = d.properties.Party_2006;
-        }
-        else if(value == 2010){
-           // console.log("2010")
-          party = d.properties.Party_2010;
-        }
-        else{
-          
-          party = d.properties.Party_2014;
-        } 
-
-          tooltip.html(party)
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
-      })
-      .on("mouseout", function(d) {
-            tooltip.transition()
-            .duration(500)
+    var projection = d3.geoMercator()
+      .scale(1100)
+      .center([-65.2, -9.3])
+      .translate([width / 2, height / 2]);
+    var path = d3.geoPath()
+      .projection(projection);
+    // Set svg width & height
+    var svg = d3.select('svg')
+      .attr('width', width)
+      .attr('height', height);
+    // Add tooltip
+    var tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
             .style("opacity", 0);
-      })
-      .on('click', clicked);
-});
+    // Add background
+    svg.append('rect')
+      .attr('class', 'background')
+      .attr('width', width)
+      .attr('height', height)
+      .style('fill', '#f7f5f5');
+      // .on('click', clicked);
+    var g = svg.append('g');
+    var effectLayer = g.append('g')
+      .classed('effect-layer', true);
+    var mapLayer = g.append('g')
+      .classed('map-layer', true)
+      .attr('class', 'state');
 
 
+    //  --- Slider ---
+    var data3 = d3.range(0, 3).map(function (d) { return new Date(2006 + (d*4), 4, 3); });
+    console.log(data3);
+      var slider3 = d3.sliderTop()
+        .min(d3.min(data3))
+        .max(d3.max(data3))
+        .step((1000 * 60 * 60 * 24 * 365)*4)
+        .width(600)
+        .tickFormat(d3.timeFormat('%Y'))
+        .tickValues(data3)
+        .on('onchange', val => {
+          d3.select("p#value3").text(d3.timeFormat('%Y')(val));
+          var value = d3.timeFormat('%Y')(val);
+          colorUpdate(value);
+        });
 
 
+      var group3 = d3.select("div#slider3").append("svg")
+        .attr("width", 650)
+        .attr("height", 100)
+        .append("g")
+        .attr("transform", "translate(30,60)");
 
-  // console.log(d.properties)
-  // if (value == '2006'){
-  //   return features.properties.Color_2006;
-  // }
-  // else if (value == '2010'){
-  //   return features.properties.Color_2010;
-  // }
-  // else {
-  //   return features.properties.Color_2014;
-  // }
-}
+      group3.call(slider3);
+      
+    // --- End Slider ---
 
-  var group3 = d3.select("div#slider3").append("svg")
-    .attr("width", 500)
-    .attr("height", 100)
-    .append("g")
-    .attr("transform", "translate(30,60)");
-
-  group3.call(slider3);
-  
-// --- End Slider ---
-
-d3.json('peru_data/peru_region.geojson', function(error, mapData) {
-  var features = mapData.features;
-  // Update color scale domain based on data
-  // color.domain([0, d3.max(features, nameLength)]);
-  const colors = getColors("R");
-  // console.log("features color", features[1].properties.Color_2010);
-  // Draw each province as a path
-  mapLayer.selectAll('path')
-      .data(features)
-      .enter().append('path')
-      .attr('d', path)
-      .attr('vector-effect', 'non-scaling-stroke')
-      .style('fill', function(d){
-        return d.properties.Color_2006;
-    })
-      //   function (d) {
-      //   return d.properties.Color_2014;
-      // })
-      .on('mouseover', function(d){
-        tooltip.transition()
-        .duration(200)
-        .style("opacity",0.9);
-        // console.log(d.properties.Party);
-        tooltip.html(d.properties.Party_2006)
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
-      })
-      .on("mouseout", function(d) {
+    d3.json('peru_data/peru_region.geojson', function(error, mapData) {
+      var features = mapData.features;
+      
+      // Draw each province as a path
+      mapLayer.selectAll('path')
+          .data(features)
+          .enter().append('path')
+          .attr('d', path)
+          .attr('vector-effect', 'non-scaling-stroke')
+          .style('fill', function(d){
+            return d.properties.Color_2006;
+          })
+          .on('mouseover', function(d){
             tooltip.transition()
-            .duration(500)
-            .style("opacity", 0);
-      })
-      .on('click', clicked);
-});
-
-  var flag = [];
-function fillColors(regionName) {
-  d3.csv("csv_data/ERegionalesMunicipales2014_MunicipalElectionResults2014_Regional.csv", function(d) {
-      /*if (d[i].REGION == "AMAZONAS") {
-        console.log(d[i].REGION);
-        // console.log("yay", d[i].REGION);
-        flag = 0;
-        break;
-      }
-      else{
-        flag = 2;
-        break;
-      }*/
-    // }
-    // console.log(d);
-    // return d;
-    var abc = d3.nest()
-                .key(function(d2){
-                  return d2.REGION;
-                })
-                .entries(d);
-    for (var i = 0; i < abc.length; i++) {
-      if (abc[i].key == regionName) {
-        flag = (abc[i].values[0].POLITICAL_ORGANIZATION);
-      }
-    }
-  });
-  // console.log(flag);
-  return JSON.stringify(flag);
-}
-
-
-function clicked(d) {
-  console.log(d.properties.Color_2010);
-  d3.json('peru_data/peru_province.geojson', function(error, mapData){
-    var features = mapData.features;
-    var province_features = [];
-
-    selectedRegion = d.properties.NOMBDEP
-    for(var i=0; i<features.length; i++){
-      region = features[i].properties.FIRST_NOMB
-      if ( region === selectedRegion){
-        province_features.push(features[i]);
-      }
-    }
-        var t = d3.transition().duration(800)
-
-        var countyPaths = mapLayer.selectAll('.county')
-            .data(province_features);
-
-        var enterCountyPaths = countyPaths.enter().append('path')
-            .attr('class', 'county')
-            .attr('d', path)
-            .style('fill', 'white')
-            .style('opacity', 0.9)
-            .on('click', function () { usZoom() })
-
-    if (d && centered !== d) {
-    var centroid = path.centroid(d);
-    x = centroid[0];
-    y = centroid[1];
-    k = 2;
-    centered = d;
-  } else {
-    x = width / 2;
-    y = height / 2;
-    k = 1;
-    centered = null;
-  }
-  mapLayer.selectAll("path")
-      .classed("active", centered && function(d) { return d === centered; });
-
-  g.transition()
-      .duration(500)
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-      .style("stroke-width", 1.5 / k + "px");
- });         
-}
-function usZoom(d) {
-  // console.log("in us zoom");
-  var t = d3.transition().duration(800)
-
-        mapLayer.transition(t)
-            .attr('d', path);
-
-        mapLayer.selectAll('.county')
-            .data([])
-            .exit()
-            .attr('d', path)
-            .style('opacity', 0)
-            .remove();
-
-  if (d && centered !== d) {
-    var centroid = path.centroid(d);
-    x = centroid[0];
-    y = centroid[1];
-    k = 2;
-    centered = d;
-  } else {
-    x = width / 2;
-    y = height / 2;
-    k = 1;
-    centered = null;
-  }
-  mapLayer.selectAll("path")
-      .classed("active", centered && function(d) { return d === centered; });
-
-  g.transition()
-      .duration(500)
-      .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
-      .style("stroke-width", 1.5 / k + "px");
-}
-
-function getColors(param1) {
-
-
-  
-  // if (d == "R") {
-    const colors = ['#e6194b', '#3cb44b', '#ffe119', '#4363d8', '#f58231', '#911eb4', '#46f0f0', '#f032e6', '#bcf60c', '#fabebe', '#008080', '#e6beff', '#9a6324', '#fffac8', '#800000', '#aaffc3', '#808000', '#ffd8b1', '#000075', '#808080', '#ffffff', '#000000'];
-  // }
-  return colors;
-}
-
-//------------------------------------------------ End of MAP ----------------------------------------------------
-
-// ---------------------------------------------------- Radar chart ----------------------------------------------
-/*var chart = bb.generate({
-  data: {
-    x: "x",
-    columns: [
-  ["x", "Data A", "Data B", "Data C", "Data D", "Data E"],
-  ["data1", 330, 350, 200, 380, 150],
-  ["data2", 130, 100, 30, 200, 80],
-  ["data3", 230, 153, 85, 300, 250]
-    ],
-    type: "radar",
-    labels: true
-  },
-  radar: {
-    axis: {
-      max: 400
-    },
-    level: {
-      depth: 4
-    },
-    direction: {
-      clockwise: true
-    }
-  },
-  bindto: "#rChart"
-});*/
-// ------------------------------------------- End of Radar Chart ------------------------------------------------
-
-//--------------------------------------------------- Poverty Chart ----------------------------------------------
-
-var data = [
-  /*{
-    name: "USA",
-    values: [
-      {date: "2000", price: "100"},
-      {date: "2001", price: "110"},
-      {date: "2002", price: "145"},
-      {date: "2003", price: "241"},
-      {date: "2004", price: "101"},
-      {date: "2005", price: "90"},
-      {date: "2006", price: "10"},
-      {date: "2007", price: "35"},
-      {date: "2008", price: "21"},
-      {date: "2009", price: "201"}
-    ]
-  },
-  {
-    name: "Canada",
-    values: [
-      {date: "2000", price: "200"},
-      {date: "2001", price: "120"},
-      {date: "2002", price: "33"},
-      {date: "2003", price: "21"},
-      {date: "2004", price: "51"},
-      {date: "2005", price: "190"},
-      {date: "2006", price: "120"},
-      {date: "2007", price: "85"},
-      {date: "2008", price: "221"},
-      {date: "2009", price: "101"}
-    ]
-  },*/
-  {
-    name: "Mexico",
-    values: [
-      {date: "2000", price: "2"},
-      {date: "2001", price: "3"},
-      {date: "2002", price: "2"},
-      {date: "2003", price: "1"},
-      {date: "2004", price: "2"},
-      {date: "2005", price: "3"},
-      {date: "2006", price: "2"},
-      {date: "2007", price: "1"},
-      {date: "2008", price: "2"},
-      {date: "2009", price: "1"}
-    ]
-  }
-];
-
-var width = 500;
-var height = 300;
-var margin = 50;
-var duration = 250;
-
-var lineOpacity = "0.25";
-var lineOpacityHover = "0.85";
-var otherLinesOpacityHover = "0.1";
-var lineStroke = "1.5px";
-var lineStrokeHover = "2.5px";
-
-var circleOpacity = '0.85';
-var circleOpacityOnLineHover = "0.25"
-var circleRadius = 3;
-var circleRadiusHover = 6;
-
-
-/* Format Data */
-var parseDate = d3.timeParse("%Y");
-data.forEach(function(d) { 
-  d.values.forEach(function(d) {
-    d.date = parseDate(d.date);
-    d.price = +d.price;    
-  });
-});
-
-
-/* Scale */
-var xScale = d3.scaleTime()
-  .domain(d3.extent(data[0].values, d => d.date))
-  .range([0, width-margin]);
-
-var yScale = d3.scaleLinear()
-  .domain([0, d3.max(data[0].values, d => d.price)])
-  .range([height-margin, 0]);
-
-/*var yScale = d3.scaleLinear()
-  .domain([0, d3.max(data[0].values, d => d.price)])
-  .range([height-margin, 0]);
-*/
-/*var yScale = d3.scaleOrdinal()
-  .domain(["Extremely Poor", "Poor", "Not Poor"])
-  .range([0, height-margin]);*/
-
-var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-/* Add SVG */
-var svg = d3.select("#povertyChart").append("svg")
-  .attr("width", (width+margin)+"px")
-  .attr("height", (height+margin)+"px")
-  .append('g')
-  .attr("transform", `translate(${margin}, ${margin})`);
-
-
-/* Add line into SVG */
-var line = d3.line()
-  .x(d => xScale(d.date))
-  .y(d => yScale(d.price));
-
-let lines = svg.append('g')
-  .attr('class', 'lines');
-
-lines.selectAll('.line-group')
-  .data(data).enter()
-  .append('g')
-  .attr('class', 'line-group')  
-  .on("mouseover", function(d, i) {
-      svg.append("text")
-        .attr("class", "title-text")
-        .style("fill", color(i))        
-        .text(d.name)
-        .attr("text-anchor", "middle")
-        .attr("x", (width-margin)/2)
-        .attr("y", 5);
-    })
-  .on("mouseout", function(d) {
-      svg.select(".title-text").remove();
-    })
-  .append('path')
-  .attr('class', 'line')  
-  .attr('d', d => line(d.values))
-  .style('stroke', (d, i) => color(i))
-  .style('opacity', lineOpacity)
-  .on("mouseover", function(d) {
-      d3.selectAll('.line')
-          .style('opacity', otherLinesOpacityHover);
-      d3.selectAll('.circle')
-          .style('opacity', circleOpacityOnLineHover);
-      d3.select(this)
-        .style('opacity', lineOpacityHover)
-        .style("stroke-width", lineStrokeHover)
-        .style("cursor", "pointer");
-    })
-  .on("mouseout", function(d) {
-      d3.selectAll(".line")
-          .style('opacity', lineOpacity);
-      d3.selectAll('.circle')
-          .style('opacity', circleOpacity);
-      d3.select(this)
-        .style("stroke-width", lineStroke)
-        .style("cursor", "none");
+            .duration(200)
+            .style("opacity",0.9);
+            console.log(d.properties.Party);
+            tooltip.html(d.properties.Party_2006)
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY - 28) + "px");
+          })
+          .on("mouseout", function(d) {
+                tooltip.transition()
+                .duration(500)
+                .style("opacity", 0);
+          })
+          .on('click', clicked);
     });
-
-
-/* Add circles in the line */
-lines.selectAll("circle-group")
-  .data(data).enter()
-  .append("g")
-  .style("fill", (d, i) => color(i))
-  .selectAll("circle")
-  .data(d => d.values).enter()
-  .append("g")
-  .attr("class", "circle")  
-  .on("mouseover", function(d) {
-      d3.select(this)     
-        .style("cursor", "pointer")
-        .append("text")
-        .attr("class", "text")
-        .text(`${d.price}`)
-        .attr("x", d => xScale(d.date) + 5)
-        .attr("y", d => yScale(d.price) - 10);
-    })
-  .on("mouseout", function(d) {
-      d3.select(this)
-        .style("cursor", "none")  
-        .transition()
-        .duration(duration)
-        .selectAll(".text").remove();
-    })
-  .append("circle")
-  .attr("cx", d => xScale(d.date))
-  .attr("cy", d => yScale(d.price))
-  .attr("r", circleRadius)
-  .style('opacity', circleOpacity)
-  .on("mouseover", function(d) {
-        d3.select(this)
-          .transition()
-          .duration(duration)
-          .attr("r", circleRadiusHover);
-      })
-    .on("mouseout", function(d) {
-        d3.select(this) 
-          .transition()
-          .duration(duration)
-          .attr("r", circleRadius);  
+    function colorUpdate(value){
+      
+      mapLayer.selectAll('path').remove();
+      d3.json('peru_data/peru_region.geojson', function(error, mapData) {
+        var features = mapData.features;
+        
+        mapLayer.selectAll('path')
+            .data(features)
+            .enter().append('path')
+            .attr('d', path)
+            .attr('vector-effect', 'non-scaling-stroke')
+            .style('fill', function(d){
+              if (value == 2006){
+                // console.log("2006")
+                return d.properties.Color_2006;
+              }
+              else if(value == 2010){
+                return d.properties.Color_2010;
+              }
+              else{
+                // console.log("200")
+                return d.properties.Color_2014;
+              }   
+          })
+            .on('mouseover', function(d){
+              tooltip.transition()
+              .duration(200)
+              .style("opacity",0.9);
+              if (value == 2006){
+                // console.log("2006")
+                party = d.properties.Party_2006;
+              }
+              else if(value == 2010){
+                 // console.log("2010")
+                party = d.properties.Party_2010;
+              }
+              else{
+                
+                party = d.properties.Party_2014;
+              } 
+                tooltip.html(party)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");
+            })
+            .on("mouseout", function(d) {
+                  tooltip.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+            })
+            .on('click', clicked);
       });
-
-
-/* Add Axis into SVG */
-var xAxis = d3.axisBottom(xScale).ticks(5);
-var yAxis = d3.axisLeft().scale(yScale).ticks(5);
-
-svg.append("g")
-  .attr("class", "x axis")
-  .attr("transform", `translate(0, ${height-margin})`)
-  .call(xAxis);
-
-svg.append("g")
-  .attr("class", "y axis")
-  .call(yAxis)
-  .append('text')
-  .attr("y", 15)
-  .attr("transform", "rotate(-90)")
-  .attr("fill", "#000")
-  .text("1-Extremely Poor 2-Poor 3-Not Poor");
-
-/*var pchart = bb.generate({
-  data: {
-    columns: [
-  ["data2", 2010, 2018, 2006]
-    ],
-    regions: {
-      data2: [
-        {
-          end: 3
-        }
-      ]
-    }
-  },
-  size:{
-      height:400,
-      width:600
-  },
-  legend: {
-      position: "right"
-  },
-  axis: {
-      rotated: false,
-      x: {
-        type: "category",
-        categories: [
-          "Extreme\n Poor",
-          "Poor",
-          "Not Poor"        ]
-      },
-      y: {
-        type: "category",
-        // inverted: true,
-        tick: {
-          count: 4,
-          values: [2006, 2010, 2014, 2018],
-          min: 2006,
-          max: 2018,
-
-          // format: function(x) {
-          //   return
-          // }
-        },
-        // label: {
-        //   text: "Population",
-        //   position: "outer-middle"
-        // }
       }
-    },
-  bindto: "#povertyChart"
-});*/
+    function clicked(d) {
+      d3.json('peru_data/peru_province.geojson', function(error, mapData){
+        var features = mapData.features;
+        var province_features = [];
+        selectedRegion = d.properties.NOMBDEP
+        for(var i=0; i<features.length; i++){
+          region = features[i].properties.FIRST_NOMB
+          if ( region === selectedRegion){
+            province_features.push(features[i]);
+          }
+        }
+            var t = d3.transition().duration(800)
 
-//------------------------------------------------ Education Line Chart ------------------------------------------
-var educationChart = bb.generate({
-    bindto: "#chart",
+            var countyPaths = mapLayer.selectAll('.county')
+                .data(province_features);
+
+            var enterCountyPaths = countyPaths.enter().append('path')
+                .attr('class', 'county')
+                .attr('d', path)
+                .style('fill', 'white')
+                .style('opacity', 0.9)
+                .on('click', function () { usZoom() })
+
+        if (d && centered !== d) {
+        var centroid = path.centroid(d);
+        x = centroid[0];
+        y = centroid[1];
+        k = 2;
+        centered = d;
+      } else {
+        x = width / 2;
+        y = height / 2;
+        k = 1;
+        centered = null;
+      }
+      mapLayer.selectAll("path")
+          .classed("active", centered && function(d) { return d === centered; });
+
+      g.transition()
+          .duration(500)
+          .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+          .style("stroke-width", 1.5 / k + "px");
+     });         
+    }
+    function usZoom(d) {
+      console.log("in us zoom");
+      var t = d3.transition().duration(800)
+
+            mapLayer.transition(t)
+                .attr('d', path);
+
+            mapLayer.selectAll('.county')
+                .data([])
+                .exit()
+                .attr('d', path)
+                .style('opacity', 0)
+                .remove();
+
+      if (d && centered !== d) {
+        var centroid = path.centroid(d);
+        x = centroid[0];
+        y = centroid[1];
+        k = 2;
+        centered = d;
+      } else {
+        x = width / 2;
+        y = height / 2;
+        k = 1;
+        centered = null;
+      }
+      mapLayer.selectAll("path")
+          .classed("active", centered && function(d) { return d === centered; });
+
+      g.transition()
+          .duration(500)
+          .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
+          .style("stroke-width", 1.5 / k + "px");
+    }
+    // --- ---
+
+    // --- ---
+    var educationChart = bb.generate({
+      bindto: "#chart",
+      size:{
+        height:400,
+        width:550
+      },
+      data: {
+        type: "line",
+          columns: [
+              ["Graduate school", 30, 15, 10, 40],
+              ["College", 150, 200, 175, 220],
+              ["High school", 250, 300, 325, 350],
+              ["Secondary school", 100, 120, 130, 140],
+              ["Primary school", 50, 75, 75, 50],
+              ["No school", 30, 20, 40, 50]
+          ]
+      },
+      legend: {
+        position: "right"
+      },
+      axis: {
+        x: {
+          label: {
+            text: "Year",
+            position: "outer-center"
+          },
+          type: "category",
+          categories: [
+            "2006",
+            "2010",
+            "2014",
+            "2018"
+          ]
+        },
+        y: {
+          label: {
+            text: "Population",
+            position: "outer-middle"
+          }
+        }
+      }
+    });
+    // --- ---
+    // --- ---
+    var ageGroupChart = bb.generate({
     size:{
-      height:400,
-      width:700
-    },
+        height:400,
+        width:550
+      },
     data: {
-      type: "line",
-        columns: [
-            ["Graduate school", 30, 15, 10, 40],
-            ["College", 150, 200, 175, 220],
-            ["High school", 250, 300, 325, 350],
-            ["Secondary school", 100, 120, 130, 140],
-            ["Primary school", 50, 75, 75, 50],
-            ["No school", 30, 20, 40, 50]
+      /* this is default data*/
+      columns: [
+    ["<18", 100, 105, 100, 110],
+    ["18-30", 130, 100, 100, 150],
+    ["30-50", 230, 200, 200, 300],
+    [">50", 230, 200, 200, 300]
+      ],
+      type: "bar",
+      groups: [
+        [
+          "<18",
+          "18-30",
+          "30-50",
+          ">50"
         ]
+      ]
+
     },
     legend: {
       position: "right"
@@ -832,189 +565,22 @@ var educationChart = bb.generate({
         ]
       },
       y: {
-        label: {
-          text: "Population",
-          position: "outer-middle"
+          label: {
+            text: "Population",
+            position: "outer-middle"
+          }
         }
-      }
-    }
-});
-//------------------------------------------ End of Education Chart ---------------------------------------------
-
-//-------------------------------------------- Age Groups Chart -------------------------------------------------
-var ageGroupChart = bb.generate({
-  size:{
-      height:400,
-      width:600
     },
-  data: {
-    /* this is default data*/
-    columns: [
-  ["<18", 100, 105, 100, 110],
-  ["18-30", 130, 100, 100, 150],
-  ["30-50", 230, 200, 200, 300],
-  [">50", 230, 200, 200, 300]
-    ],
-    type: "bar",
-    groups: [
-      [
-        "<18",
-        "18-30",
-        "30-50",
-        ">50"
-      ]
-    ]
-
-  },
-  legend: {
-    position: "right"
-  },
-  axis: {
-    x: {
-      label: {
-        text: "Year",
-        position: "outer-center"
-      },
-      type: "category",
-      categories: [
-        "2006",
-        "2010",
-        "2014",
-        "2018"
-      ]
-    },
-    y: {
-        label: {
-          text: "Population",
-          position: "outer-middle"
-        }
+    grid: {
+      y: {
+        lines: [
+          {
+            value: 0
+          }
+        ]
       }
-  },
-  grid: {
-    y: {
-      lines: [
-        {
-          value: 0
-        }
-      ]
-    }
-  },
-  bindto: "#StackedBarChart"
-});
-//------------------------------------------ End of Age Groups Chart ---------------------------------------------
-
-//------------------------------------ Voting Comparisons for Party Chart ----------------------------------------
-var ageGroupChartMap = {
-  'Amazonas': [
-    ["<18", 200, 205, 200, 210],
-    ["18-30", 430, 400, 400, 450],
-    ["30-50", 330, 300, 400, 500],
-    [">50", 230, 200, 200, 200]
-    ],
-  'Ancash': [
-    ["<18", 100, 105, 100, 110],
-    ["18-30", 130, 100, 100, 150],
-    ["30-50", 230, 200, 300, 400],
-    [">50", 230, 200, 200, 300]
-    ]
-}
-var educationChartMap = {
-  'Amazonas': [
-            ["Graduate school", 30, 15, 10, 40],
-            ["College", 250, 300, 275, 320],
-            ["High school", 240, 290, 325, 350],
-            ["Secondary school", 10, 12, 13, 15],
-            ["Primary school", 50, 75, 75, 50],
-            ["No school", 30, 20, 40, 50]
-        ],
-  'Ancash': [
-            ["Graduate school", 30, 15, 10, 40],
-            ["College", 150, 200, 175, 220],
-            ["High school", 250, 300, 325, 350],
-            ["Secondary school", 100, 120, 130, 140],
-            ["Primary school", 50, 75, 75, 50],
-            ["No school", 30, 20, 40, 50]
-        ]
-}
-
-var partyVoterChartMap = {
-  'Amazonas': [
-            ["Sentimiento Amazonense Regional", 300, 153, 161, 222],
-            ["Movimiento Regional Ferrza Amazonense", 260, 330, 115, 320],
-            ["Obras Por Amazonas", 340, 212, 225, 350],
-            ["Votos El Blanco", 120, 112, 323, 375],
-            ["Alianza Para El Progreso", 210, 312, 113, 175]
-        ],
-  'Ancash': [
-            ["Alianza Para El Progreso", 310, 115, 110, 140],
-            ["Partido Democratico Somos Peru", 150, 200, 175, 220],
-            ["Union Por El Peru", 250, 300, 325, 350],
-            ["Peru Posible", 100, 120, 130, 140],
-            ["Peru Patria Segura", 350, 275, 175, 250],
-            ["Votos Nulos", 230, 120, 340, 150]
-        ]
-}
-
-function loadCharts(name){
-  loadChart(ageGroupChart, ageGroupChartMap, name);
-  loadChart(educationChart, educationChartMap, name);
-  <!--unloadChart(partiesVoterchart);-->
-  loadChart(partiesVoterchart, partyVoterChartMap, name);
-}
-/*remove data from the age group chart*/
-function loadChart(c, m, name){
-  c.load({
-    columns: m[name],
-     unload: true,
+    },
+    bindto: "#StackedBarChart"
   });
-}
-<!--remove previous data-->
-function unloadChart(c){
-  c.unload();
-}
-
- var partiesVoterchart = bb.generate({
-  size:{
-     height:400,
-     width: 750
-    },
-  data: {
-    x : "x",
-    columns: [
-    ["x", 2006, 2010, 2014, 2018],
-  ["Party 1", 30, 350, 200, 380],
-  ["Party 2", 130, 100, 10, 200],
-  ["Party 3", 230, 153, 85, 300],
-  ["Party 4", 210, 133, 285, 123],
-    ],
-
-    type: "bubble",
-    labels: true
-  },
-  bubble: {
-    maxR: 40
-  },
-  legend: {
-      position: "right"
-    },
-  axis: {
-    x: {
-      type: "category",
-      label : {
-        text : "Year",
-        position: "outer-center"
-      }
-    },
-    y: {
-      max: 500,
-      label : {
-        text : "Votes",
-        position : "outer-middle"
-      }
-    }
-  },
-  bindto: "#partyVoterChart"
-});
- //------------------------------ End of Voting Comparisons for Party Chart --------------------------------------
-</script>
-</script>
+  </script>
+</html>
