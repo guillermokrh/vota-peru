@@ -134,20 +134,20 @@ function random (start, end) {
     if(error) throw error;
 
     //executes after d3.csv is called and returns from all calls
-    console.log("printing csv data sets");
-    console.log(csvDataSets[0]);
-    console.log(csvDataSets[1]);
+    // console.log("printing csv data sets");
+    // console.log(csvDataSets[0]);
+    // console.log(csvDataSets[1]);
 
     num_entries = csvDataSets[0].length;
     var percentGender = d3.nest().key(function(d){
       if(d.ELECTION_JURY=="ICA"){
         return d.GENDER;}
       }).entries(csvDataSets[0]);
-    console.log(percentGender);
+    // console.log(percentGender);
     female = percentGender[1].values.length;
     male = percentGender[2].values.length;
-    console.log("male: " + male);
-    console.log("female: " + female);
+    // console.log("male: " + male);
+    // console.log("female: " + female);
 
     /*set up map*/
     var width = 1000;

@@ -16,8 +16,10 @@
         "HECTARES": 3930646.567,
         "Party_2014": "SENTIMIENTO AMAZONENSE REGIONAL",
         "Party_2006": "FUERZA DEMOCRATICA",
-        "Party_2010": "",
-        "Color_2006": ""
+        "Party_2010": "ALIANZA REGIONAL JUNTOS POR AMAZONAS",
+        "Color_2006": "#e6194b",
+        "Color_2014": "#08306b",
+        "Color_2010": "#e6194b"
       },
       "geometry": {
         "type": "Polygon",
@@ -546,8 +548,12 @@
         "COUNT": 166,
         "FIRST_IDDP": "02",
         "HECTARES": 3596224.6,
-        "Party_2014": "MOVIMIENTO REGIONAL ANDE - MAR",
-        "Party_2006": "MOVIMIENTO REGIONAL INDEPENDIENTE CUENTA CONMIGO"
+        "Party_2014": "MOVIMIENTO RaEGIONAL ANDE - MA",
+        "Party_2006": "MOVIMIENTO REGIONAL INDEPENDIENTE CUENTA CONMIGO",
+        "Party_2010": "MOVIMIENTO REGIONAL INDEPENDIENTE CUENTA CONMIGO",
+        "Color_2006": "#3cb44b",
+        "Color_2014": "#00441b",
+        "Color_2010": "#ffd8b1"
       },
       "geometry": {
         "type": "Polygon",
@@ -1001,7 +1007,11 @@
         "FIRST_IDDP": "03",
         "HECTARES": 2111415.17,
         "Party_2014": "MOVIMIENTO POPULAR KALLPA",
-        "Party_2006": "FRENTE POPULAR LLAPANCHIK"
+        "Party_2006": "FRENTE POPULAR LLAPANCHIK",
+        "Party_2010": "PODER POPULAR ANDINO",
+        "Color_2006": "#ffe119",
+        "Color_2014": "#000000",
+        "Color_2010": "#800000"
       },
       "geometry": {
         "type": "Polygon",
@@ -1347,7 +1357,11 @@
         "FIRST_IDDP": "04",
         "HECTARES": 6325588.935,
         "Party_2014": "AREQUIPA RENACE",
-        "Party_2006": "AREQUIPA, TRADICION Y FUTURO"
+        "Party_2006": "AREQUIPA, TRADICION Y FUTURO",
+        "Party_2010": "ALIANZA POR AREQUIPA",
+        "Color_2006": "#4363d8",
+        "Color_2014": "#e6194b",
+        "Color_2010": "#e6beff"
       },
       "geometry": {
         "type": "Polygon",
@@ -2067,7 +2081,11 @@
         "FIRST_IDDP": "05",
         "HECTARES": 4350381.783,
         "Party_2014": "ALIANZA RENACE AYACUCHO",
-        "Party_2006": "MOVIMIENTO INDEPENDIENTE INNOVACION REGIONAL"
+        "Party_2006": "MOVIMIENTO INDEPENDIENTE INNOVACION REGIONAL",
+        "Color_2006": "#f58231",
+        "Party_2010": "MOVIMIENTO INDEPENDIENTE REGIONAL TODOS CON AYACUCHO",
+        "Color_2014": "#808080",
+        "Color_2010": "#bcf60c"
       },
       "geometry": {
         "type": "Polygon",
@@ -2787,7 +2805,11 @@
         "FIRST_IDDP": "06",
         "HECTARES": 3304465.549,
         "Party_2014": "MOVIMIENTO DE AFIRMACION SOCIAL",
-        "Party_2006": "FUERZA SOCIAL"
+        "Party_2006": "FUERZA SOCIAL",
+        "Party_2010": "MOVIMIENTO DE AFIRMACION  SOCIAL",
+        "Color_2006": "#911eb4",
+        "Color_2014": "#000075",
+        "Color_2010": "#4363d8"
       },
       "geometry": {
         "type": "Polygon",
@@ -3277,7 +3299,11 @@
         "FIRST_IDDP": "07",
         "HECTARES": 14140.954,
         "Party_2014": "CHIMPUM CALLAO",
-        "Party_2006": "UNION POR EL PERU"
+        "Party_2006": "UNION POR EL PERU",
+        "Party_2010": "MOVIMIENTO INDEPENDIENTE CHIMPUM CALLAO",
+        "Color_2006": "#46f0f0",
+        "Color_2014": "#e6beff",
+        "Color_2010": "#000000"
       },
       "geometry": {
         "type": "Polygon",
@@ -3335,7 +3361,11 @@
         "FIRST_IDDP": "08",
         "HECTARES": 7207614.24,
         "Party_2014": "MOVIMIENTO REGIONAL ACUERDO POPULAR UNIFICADO",
-        "Party_2006": "PROYECTO INTEGRACIONISTA DE COMUNIDADES ORGANIZADAS"
+        "Party_2006": "PROYECTO INTEGRACIONISTA DE COMUNIDADES ORGANIZADAS",
+        "Party_2010": "GRAN ALIANZA NACIONALISTA CUSCO",
+        "Color_2006": "#f032e6",
+        "Color_2014": "#ffd8b1",
+        "Color_2010": "#e7e1ef"
       },
       "geometry": {
         "type": "Polygon",
@@ -4263,7 +4293,11 @@
         "FIRST_IDDP": "09",
         "HECTARES": 2206503.876,
         "Party_2014": "MOVIMIENTO INDEPENDIENTE REGIONAL AYLLU",
-        "Party_2006": "FRENTE AMPLIO REGIONAL"
+        "Party_2006": "FRENTE AMPLIO REGIONAL",
+        "Party_2010": "MOVIMIENTO INDEPENDIENTE TRABAJANDO PARA TODOS",
+        "Color_2006": "#bcf60c",
+        "Color_2014": "#808000",
+        "Color_2010": "#808000"
       },
       "geometry": {
         "type": "Polygon",
@@ -4697,7 +4731,11 @@
         "FIRST_IDDP": "10",
         "HECTARES": 3720052.603,
         "Party_2014": "MOVIMIENTO INTEGRACION DESCENTRALISTA",
-        "Party_2006": "PARTIDO REGIONAL DE INTEGRACION"
+        "Party_2006": "PARTIDO REGIONAL DE INTEGRACION",
+        "Party_2010": "PARTIDO DEMOCRATICO SOMOS PERU",
+        "Color_2006": "#fabebe",
+        "Color_2014": "#756bb1",
+        "Color_2010": "#800000"
       },
       "geometry": {
         "type": "Polygon",
@@ -5307,7 +5345,11 @@
         "FIRST_IDDP": "11",
         "HECTARES": 2108076.66,
         "Party_2014": "FUERZA POPULAR",
-        "Party_2006": "CONVERGENCIA REGIONAL DESCENTRALISTA - CONREDES"
+        "Party_2006": "CONVERGENCIA REGIONAL DESCENTRALISTA - CONREDES",
+        "Party_2010": "FRENTE REGIONAL PROGRESISTA IQUEÑO",
+        "Color_2006": "#008080",
+        "Color_2014": "#f032e6",
+        "Color_2010": "#9a6324"
       },
       "geometry": {
         "type": "Polygon",
@@ -5733,7 +5775,11 @@
         "FIRST_IDDP": "12",
         "HECTARES": 4399729.222,
         "Party_2014": "JUNIN SOSTENIBLE CON SU GENTE",
-        "Party_2006": "PARTIDO APRISTA PERUANO"
+        "Party_2006": "PARTIDO APRISTA PERUANO",
+        "Party_2010": "MOVIMIENTO POLITICO REGIONAL PERU LIBRE",
+        "Color_2006": "#e6beff",
+        "Color_2014": "#800000",
+        "Color_2010": "#fabebe"
       },
       "geometry": {
         "type": "Polygon",
@@ -6363,7 +6409,11 @@
         "FIRST_IDDP": "13",
         "HECTARES": 2529596.876,
         "Party_2014": "ALIANZA PARA EL PROGRESO",
-        "Party_2006": "PARTIDO MOVIMIENTO HUMANISTA PERUANO"
+        "Party_2006": "PARTIDO MOVIMIENTO HUMANISTA PERUANO",
+        "Party_2010": "PARTIDO APRISTA PERUANO",
+        "Color_2006": "#9a6324",
+        "Color_2014": "#fffac8",
+        "Color_2010": "#46f0f0"
       },
       "geometry": {
         "type": "Polygon",
@@ -6909,7 +6959,11 @@
         "FIRST_IDDP": "14",
         "HECTARES": 1434230.801,
         "Party_2014": "ALIANZA PARA EL PROGRESO",
-        "Party_2006": "CONCERTACION PARA EL DESARROLLO REGIONAL - LIMA"
+        "Party_2006": "CONCERTACION PARA EL DESARROLLO REGIONAL - LIMA",
+        "Party_2010": "ALIANZA PARA EL PROGRESO",
+        "Color_2006": "#fffac8",
+        "Color_2014": "#fffac8",
+        "Color_2010": "#911eb4"
       },
       "geometry": {
         "type": "Polygon",
@@ -7147,7 +7201,11 @@
         "FIRST_IDDP": "15",
         "HECTARES": 3498999.431,
         "Party_2014": "CONCERTACION PARA EL DESARROLLO REGIONAL - LIMA",
-        "Party_2006": "FUERZA LORETANA"
+        "Party_2006": "FUERZA LORETANA",
+        "Party_2010": "CONCERTACION PARA EL DESARROLLO REGIONAL - LIMA",
+        "Color_2006": "#800000",
+        "Color_2014": "#9a6324",
+        "Color_2010": "#00441b"
       },
       "geometry": {
         "type": "Polygon",
@@ -7649,7 +7707,11 @@
         "FIRST_IDDP": "16",
         "HECTARES": 37511598.865,
         "Party_2014": "MOVIMIENTO INTEGRACION LORETANA",
-        "Party_2006": "MOVIMIENTO INDEPENDIENTE OBRAS SIEMPRE OBRAS"
+        "Party_2006": "MOVIMIENTO INDEPENDIENTE OBRAS SIEMPRE OBRAS",
+        "Party_2010": "FUERZA LORETANA",
+        "Color_2006": "#756bb1",
+        "Color_2014": "#e6beff",
+        "Color_2010": "#e6194b"
       },
       "geometry": {
         "type": "Polygon",
@@ -9239,7 +9301,11 @@
         "FIRST_IDDP": "17",
         "HECTARES": 8504586.569,
         "Party_2014": "DEMOCRACIA DIRECTA",
-        "Party_2006": "MOVIMIENTO INDEPENDIENTE NUESTRO ILO-MOQUEGUA"
+        "Party_2006": "MOVIMIENTO INDEPENDIENTE NUESTRO ILO-MOQUEGUA",
+        "Party_2010": "BLOQUE POPULAR MADRE DE DIOS",
+        "Color_2006": "#808000",
+        "Color_2014": "#008080",
+        "Color_2010": "#000075"
       },
       "geometry": {
         "type": "Polygon",
@@ -9721,7 +9787,11 @@
         "FIRST_IDDP": "18",
         "HECTARES": 1580730.977,
         "Party_2014": "KAUSACHUN",
-        "Party_2006": "MOVIMIENTO NUEVA IZQUIERDA"
+        "Party_2006": "MOVIMIENTO NUEVA IZQUIERDA",
+        "Party_2010": "INTEGRACION REGIONAL POR TI",
+        "Color_2006": "#ffd8b1",
+        "Color_2014": "#fabebe",
+        "Color_2010": "#ffd8b1"
       },
       "geometry": {
         "type": "Polygon",
@@ -10039,7 +10109,11 @@
         "FIRST_IDDP": "19",
         "HECTARES": 2411394.892,
         "Party_2014": "FUERZA POPULAR",
-        "Party_2006": "PARTIDO APRISTA PERUANO"
+        "Party_2006": "PARTIDO APRISTA PERUANO",
+        "Party_2010": "PARTIDO DEMOCRATICO SOMOS PERU",
+        "Color_2006": "#e6beff",
+        "Color_2014": "#f032e6",
+        "Color_2010": "#800000"
       },
       "geometry": {
         "type": "Polygon",
@@ -10565,7 +10639,11 @@
         "FIRST_IDDP": "20",
         "HECTARES": 3606506.675,
         "Party_2014": "UNION DEMOCRATICA DEL NORTE",
-        "Party_2006": "AVANZA PAIS - PARTIDO DE INTEGRACION SOCIAL"
+        "Party_2006": "AVANZA PAIS - PARTIDO DE INTEGRACION SOCIAL",
+        "Party_2010": "UNIDOS CONSTRUYENDO",
+        "Color_2006": "#000075",
+        "Color_2014": "#bcf60c",
+        "Color_2010": "#756bb1"
       },
       "geometry": {
         "type": "Polygon",
@@ -11011,7 +11089,11 @@
         "FIRST_IDDP": "21",
         "HECTARES": 6796281.696,
         "Party_2014": "PROYECTO DE LA INTEGRACION PARA LA COOPERACION",
-        "Party_2006": "NUEVA AMAZONIA"
+        "Party_2006": "NUEVA AMAZONIA",
+        "Party_2010": "REFORMA REGIONAL ANDINA INTEGRACION, PARTICIPACION ECONOMICA Y SOCIAL PUNO",
+        "Color_2006": "#808080",
+        "Color_2014": "#46f0f0",
+        "Color_2010": "#008080"
       },
       "geometry": {
         "type": "MultiPolygon",
@@ -11853,7 +11935,11 @@
         "FIRST_IDDP": "22",
         "HECTARES": 5096125.898,
         "Party_2014": "PARTIDO APRISTA PERUANO",
-        "Party_2006": "ALIANZA POR TACNA"
+        "Party_2006": "ALIANZA POR TACNA",
+        "Party_2010": "NUEVA AMAZONIA",
+        "Color_2006": "#cc4c02",
+        "Color_2014": "#911eb4",
+        "Color_2010": "#f032e6"
       },
       "geometry": {
         "type": "Polygon",
@@ -12531,7 +12617,11 @@
         "FIRST_IDDP": "23",
         "HECTARES": 1608306.709,
         "Party_2014": "MOVIMIENTO CIVICO PERUANO",
-        "Party_2006": "MOVIMIENTO INDEPENDIENTE REGIONAL FAENA"
+        "Party_2006": "MOVIMIENTO INDEPENDIENTE REGIONAL FAENA",
+        "Party_2010": "ACCION POPULAR",
+        "Color_2006": "#000000",
+        "Color_2014": "#f58231",
+        "Color_2010": "#46f0f0"
       },
       "geometry": {
         "type": "Polygon",
@@ -12761,7 +12851,11 @@
         "FIRST_IDDP": "24",
         "HECTARES": 469026.014,
         "Party_2014": "RECONSTRUCCION CON OBRAS MAS OBRAS PARA UN TUMBES BELLO",
-        "Party_2006": "MOVIMIENTO INDEPENDIENTE CHIMPUM CALLAO"
+        "Party_2006": "MOVIMIENTO INDEPENDIENTE CHIMPUM CALLAO",
+        "Party_2010": "MOVIMIENTO INDEPENDIENTE REGIONAL FAENA",
+        "Color_2006": "#00441b",
+        "Color_2014": "#4363d8",
+        "Color_2010": "#f58231"
       },
       "geometry": {
         "type": "Polygon",
@@ -12915,7 +13009,11 @@
         "FIRST_IDDP": "25",
         "HECTARES": 10534176.378,
         "Party_2014": "MOVIMIENTO INDEPENDIENTE REGIONAL CAMBIO UCAYALINO",
-        "Party_2006": "INTEGRANDO UCAYALI"
+        "Party_2006": "INTEGRANDO UCAYALI",
+        "Party_2010": "INTEGRANDO UCAYALI",
+        "Color_2006": "#08306b",
+        "Color_2014": "#ffe119",
+        "Color_2010": "#08306b"
       },
       "geometry": {
         "type": "Polygon",
