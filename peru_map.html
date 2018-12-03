@@ -192,6 +192,9 @@ var width = 650,
     height = 500,
     padding = 20,
     centered;
+
+
+
 var projection = d3.geoMercator()
   .scale(1100)
   .center([-65.2, -9.3])
@@ -232,7 +235,7 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
       .attr('d', path)
       .attr('vector-effect', 'non-scaling-stroke')
       .style('fill', function(d){
-        // console.log(d.properties.NOMBDEP);
+        console.log(d.properties.Party_2006.toLowerCase());
         return 0;//colors[fillColors(d.properties.NOMBDEP)];
         /*if (d.properties.NOMBDEP == 'AMAZONAS') {
           return colors[0];
@@ -242,8 +245,8 @@ d3.json('peru_data/peru_region.geojson', function(error, mapData) {
         tooltip.transition()
         .duration(200)
         .style("opacity",0.9);
-        console.log("a",fillColors(d.properties.NOMBDEP));
-        tooltip.html(fillColors(d.properties.NOMBDEP))
+        console.log(d.properties.Party);
+        tooltip.html(d.properties.Party_2006)
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
       })
