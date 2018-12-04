@@ -396,7 +396,19 @@ body.sidebar-toggled footer.sticky-footer {
   color: #333;
   white-space: normal;
 }
+.single-column-dropdown li a {
+  display: block;
+  clear: both;
+  line-height: 1.428571429;
+  color: #333;
+  white-space: normal;
+}
 .multi-column-dropdown li a:hover {
+  text-decoration: none;
+  color: #262626;
+  background-color: #999;
+}
+.single-column-dropdown li a:hover {
   text-decoration: none;
   color: #262626;
   background-color: #999;

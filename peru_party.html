@@ -49,7 +49,7 @@
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
       <!-- <div> -->
         
-        <a class="navbar-brand mr-1" style="margin: auto;" href="index.html"><i class="navbar-brand mr-1 fas fa-fw fa-hand-peace"></i>VotaPeru</a>
+        <a class="navbar-brand mr-1" style="margin: auto;" href="peru_map.html"><i class="navbar-brand mr-1 fas fa-fw fa-hand-peace"></i>VotaPeru</a>
       <!-- </div> -->
       
       <!-- Navbar Search -->
@@ -76,7 +76,7 @@
           </a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="charts.html">
+          <a class="nav-link" href="peru_party.html">
             <i class="fas fa-fw fa-users"></i>
             <span>Party Comparisons</span></a>
         </li>
@@ -95,50 +95,47 @@
           <div class="card mb-3">
             <div class="card-header">
               <!-- <i class="fas fa-chart-area"></i> -->
-              Political Parties of Peru</div>
-              <div class="card-body">
-                
+              Political Parties of Peru
+            </div>
+            <div class="card-body">
                 <!-- Dropdown -->
-                <div class="dropdown" id="#dropdownRegion">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;">
-                    Select Region
-                  </button>
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="selectProvinceButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;" disabled="true">
-                    Select Province
-                  </button>
-                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    
-                    <ul style="padding: 10px; margin: 0px;">
-                      <div class="row">
-                        <div class="col-sm-6">
-                          <ul class="multi-column-dropdown" id="selectRegion1"></ul>
-                        </div>
-                        <div class="col-sm-6">
+              <div class="dropdown" id="dropdownRegion">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRegionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;">
+                  Select Region
+                </button>
+                <div class="dropdown-menu" aria-labelledby="selectRegionButton">
+                  <ul style="padding: 10px; margin: 0px;">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <ul class="multi-column-dropdown" id="selectRegion1"></ul>
+                      </div>
+                      <div class="col-sm-6">
                         <ul class="multi-column-dropdown" id="selectRegion2"></ul>
                       </div>
-                    </ul>
-                    
-                  </div>
+                  </ul>
+                </div>
+
+              </div>
+              <div class="dropdown" id="dropdownProvince">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="selectProvinceButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;" disabled="true">
+                    Select Province
+                </button>
+                <div class="dropdown-menu" aria-labelledby="selectProvinceButton">
+                  <ul style="padding: 10px; margin: 0px;">
+                    <div class="row">
+                      <div>
+                        <ul class="single-column-dropdown" id="selectProvince1" style="padding: 0px;"></ul>
+                      </div>
+                  </ul>
+                </div>
+                
+              </div>
                 <!--- End dropdown -->
                 <div id="pNames">
                   <div class="row" id="dynamicPartyNames">
-                    <div class="col-sm-4">
-                      <br>
-                      <ul id="PartyNames1" class="list-group"></ul>
-                    </div>
-
-                    <div class="col-sm-4">
-                      <br>
-                      <ul id="PartyNames2" class="list-group"></ul>
-                    </div>
-                </div>
-                <!-- <div class="row align-items-center" style="float: left;">
-                  <div class="col-lg">
-                    
                   </div>
-                </div> -->
-              </div>
-          </div>
+                </div>
+            </div>
 
           <!-- DataTables Example -->
           <div class="card mb-3">
@@ -184,7 +181,7 @@
 
       var flood = 0;
       
-      d3.select('#dropdownMenuButton')
+      d3.select('#selectRegionButton')
         .text(regionSelected);
       
       var element = document.getElementById('dynamicPartyNames');
@@ -192,12 +189,12 @@
       
       var provinceButton = document.getElementById('selectProvinceButton');
       provinceButton.disabled = false;
-
+      populateProvince(regionSelected);
       d3.csv('csv_data/ERegionalesMunicipales2006_MunicipalElectionResults2006_Regional.csv',function (d) {
         // console.log(d);
         for(var i=1; i<d.length;i++){
           if (d[i].REGION == regionSelected) {
-            console.log(d[i].POLITICAL_ORGANIZATION);
+            // console.log(d[i].POLITICAL_ORGANIZATION);
             d3.select('#pNames')
               .append('div')
               .attr('style', 'padding: 10px;')
@@ -249,6 +246,7 @@
         }
       });
     }
+    // Populate Region Dropdown -----------------------------------------
     d3.json('peru_data/peru_region.geojson', function(error, mapData) {
       var features = mapData.features;
       for (var i = 1; i<features.length; i++){
@@ -283,6 +281,28 @@
       } //for
     });//d3JSON
 
+    // Populate Province Dropdown -----------------------------------------------------
+    function populateProvince(region) {
+      d3.json('peru_data/peru_province.geojson', function(error, mapData) {
+        var features = mapData.features;
+        for(var i = 1; i<features.length; i++){
+          if (region == features[i].properties.FIRST_NOMB) {
+            console.log(features[i].properties.NOMBPROV);
+            d3.select('#selectProvince1')
+            .append('li')
+            // .attr('class', 'dropdown-item')
+            .attr('style', 'margin-left: 10px;')
+            .append('a')
+            .attr('id', features[i].properties.NOMBPROV)
+            .text(features[i].properties.NOMBPROV)
+            .on('click', function () {
+              // console.log(this.id);
+              // regionSelected(this.id);
+            });
+          }
+        }
+      });
+    }
 
   </script>
 </html>
