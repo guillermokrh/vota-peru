@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Vota Peru</title>
+
+    <!-- Bootstrap core CSS-->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet">
+
+    <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <!-- d3 v4 -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+
+    <!-- d3 queue v3 -->
+    <script src="https://d3js.org/d3-queue.v3.min.js"></script>
+
+    <!-- billboardJS for charts -->
+    <link rel="stylesheet" href="https://naver.github.io/billboard.js/release/latest/dist/billboard.min.css">
+    <script src="https://naver.github.io/billboard.js/release/latest/dist/billboard.min.js"></script>
+
+    <!-- Slider for the map -->
+    <script src="https://unpkg.com/d3-simple-slider/build/d3-simple-slider.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+
+  </head>
+
+  <body id="page-top">
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+      <!-- <div> -->
+
+        <a class="navbar-brand mr-1" style="margin: auto;" href="index.html"><i class="navbar-brand mr-1 fas fa-fw fa-hand-peace"></i>VotaPeru</a>
+      <!-- </div> -->
+      <!-- <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
+        <i class="fas fa-bars"></i>
+      </button> -->
+
+      <!-- Navbar Search -->
+      <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
+        <div class="input-group">
+          <input type="text" class="form-control" placeholder="Search candidate or party" aria-label="Search" aria-describedby="basic-addon2">
+          <div class="input-group-append">
+            <button class="btn btn-primary" type="button">
+              <i class="fas fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Navbar -->
+      <ul class="navbar-nav ml-auto ml-md-0">
+        
+      </ul>
+
+    </nav>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+      <ul class="sidebar navbar-nav toggled">
+        <li class="nav-item active">
+          <a class="nav-link" href="peru_map.html">
+            <i class="fas fa-fw fa-map"></i>
+            <span>Map of Peru</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="pagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fas fa-fw fa-folder"></i>
+            <span>Pages</span>
+          </a>
+          <div class="dropdown-menu" aria-labelledby="pagesDropdown">
+            <h6 class="dropdown-header">Login Screens:</h6>
+            <a class="dropdown-item" href="login.html">Login</a>
+            <a class="dropdown-item" href="register.html">Register</a>
+            <a class="dropdown-item" href="forgot-password.html">Forgot Password</a>
+            <div class="dropdown-divider"></div>
+            <h6 class="dropdown-header">Other Pages:</h6>
+            <a class="dropdown-item" href="404.html">404 Page</a>
+            <a class="dropdown-item" href="blank.html">Blank Page</a>
+          </div>
+        </li> -->
+        <li class="nav-item">
+          <a class="nav-link" href="peru_party.html">
+            <i class="fas fa-fw fa-users"></i>
+            <span>Party Comparisons</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./candidate_comparisons.html">
+            <i class="fas fa-fw fa-id-card"></i>
+            <span>Candidate Comparisons</span></a>
+        </li>
+      </ul>
+
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Area Chart Example-->
+          <div class="card mb-3">
+            <div class="card-header">
+              <!-- <i class="fas fa-chart-area"></i> -->
+              Candidate Information</div>
+              <div class="card-body">
+                <div style="float: right; margin: auto; width: auto;">
+                  <!--<h1>Info</h1>-->
+                </div>
+                
+                <div id="pNames">
+                  <div class="row" id="dynamicPartyNames">
+                  </div>
+                </div>
+                <!-- <canvas id="myAreaChart" width="100%" height="30"></canvas> -->
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+  </body>
+<script>
+
+// $(function(){
+//   $.get('peru_party.html', function(result){
+
+//     var obj = 
+//   });
+// });
+
+
+var data = ["./csv_data/dataJoin8.csv"]
+// var queue = d3.queue();
+var val = 'YARINACOCHA'
+var val = val.toLowerCase()
+// console.log(value)
+
+d3.queue()
+.defer(d3.csv, data)
+.await(function(error, candidates){
+   if (error) throw error;
+
+
+var filterByDistrict = d3.nest()
+    .key(function(d){return d['ELECTION_DISTRICT']}) 
+    // .rollup(function(v){return v.length})
+    .entries(candidates);
+
+
+
+  for(var i =0; i < filterByDistrict.length; i++){
+    
+    if (filterByDistrict[i].key.toLowerCase() == val){
+      console.log("yes")
+      cand = filterByDistrict[i].values
+
+      for (var j=0; j<cand.length; j++){
+        if (j < 50){
+          // console.log(sort(cand[j]['FIRST_NAMES'] + " " + cand[j]['MATERNAL_LAST_NAME'] + " " + cand[j]['PATERNAL_LAST_NAME']))
+
+
+
+         d3.select('#pNames')
+            .append('li')
+            // .attr('class', 'dropdown-item')
+            .attr('style', 'margin-left: 10px;')
+            .append('a')
+            .attr('id', cand[j]['FIRST_NAMES'] + " " + cand[j]['MATERNAL_LAST_NAME'] + " " + cand[j]['PATERNAL_LAST_NAME'])
+            .text(cand[j]['FIRST_NAMES'] + " " + cand[j]['MATERNAL_LAST_NAME'] + " " + cand[j]['PATERNAL_LAST_NAME'])
+        }
+      }
+
+    }
+
+  }
+
+
+
+});
+
+
+
+// d3.csv('./csv_data/dataJoin8.csv', function(candidates){
+//   console.log(candidates.length)
+
+
+
+// })
+
+</script>
+
+
+
+</html>
