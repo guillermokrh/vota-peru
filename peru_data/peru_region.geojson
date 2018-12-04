@@ -19,7 +19,7 @@
         "Party_2010": "ALIANZA REGIONAL JUNTOS POR AMAZONAS",
         "Color_2006": "#e6194b",
         "Color_2014": "#08306b",
-        "Color_2010": "#e6194b"
+        "Color_2010": "#fffac8"
       },
       "geometry": {
         "type": "Polygon",
@@ -1011,7 +1011,7 @@
         "Party_2010": "PODER POPULAR ANDINO",
         "Color_2006": "#ffe119",
         "Color_2014": "#000000",
-        "Color_2010": "#800000"
+        "Color_2010": "#41ab5d"
       },
       "geometry": {
         "type": "Polygon",
