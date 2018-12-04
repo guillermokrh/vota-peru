@@ -492,28 +492,29 @@ function loadCharts(name){
     c.unload();
   }
 
-
-  //testing of d3.csv
-  age_map = {"AMAZONAS":[["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]],
-                "ANCASH":[["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]]};
- 
-  /*d3.csv('csv_data/Padron_ERM2014_Census_ERM2014.csv',function (d) {
-        // console.log(d);
-        for(var i=1; i<d.length;i++){
-          if (d[i].REGION == "AMAZONAS") {
-              console.log(d[i]);
-              age_map["AMAZONAS"][0][1] =+ d[i].UNDER_18;
-          }
-               //["<18", v.UNDER_18], ["18-20", v.AGE_18_20],
-            //["21-29", v.AGE_21_29], ["30-35", v.AGE_30_35], ["36-50", v.AGE_36_50], 
-            //["51-75", v.AGE_51_75], [">75", v.OVER_75]];
-        }
-  });
-  console.log("print out map after summing");
-  console.log(age_map);*/
+  //used to create Billboard.js data structure
+  function returnAgeMap(d){
+    var age_map = {};
+    for(var i=1; i<d.length;i++){
+      if (!(d[i].REGION in age_map)) {
+        age_map[d[i].REGION] = [["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]];
+      }
+      age_map[d[i].REGION][0][1] += parseInt(d[i].UNDER_18.replace(/,/g,''));
+      age_map[d[i].REGION][1][1] += parseInt(d[i].AGE_18_TO_20.replace(/,/g,''));
+      age_map[d[i].REGION][2][1] += parseInt(d[i].AGE_21_TO_29.replace(/,/g,''));
+      age_map[d[i].REGION][3][1] += parseInt(d[i].AGE_30_TO_35.replace(/,/g,''));
+      age_map[d[i].REGION][4][1] += parseInt(d[i].AGE_36_TO_50.replace(/,/g,''));
+      age_map[d[i].REGION][5][1] += parseInt(d[i].AGE_51_TO_75.replace(/,/g,''));
+      age_map[d[i].REGION][6][1] += parseInt(d[i].OVER_75.replace(/,/g,''));
+    }
+    return age_map;
+  }
 
   //filenames of CSV files to read
-  var filenames = ["csv_data/Padron_ERM2014_Census_ERM2014.csv"];
+  var filenames = ["csv_data/Padron_ERM2006_Census_ERM2006.csv",
+                   "csv_data/Padron_ERM2010_Census_ERM2010.csv",
+                   "csv_data/Padron_ERM2014_Census_ERM2014.csv",
+                   "csv_data/Padron_ERM2018_Census_ERM2018.csv"];
 
   //initialize d3.queue() object
   var queue = d3.queue();
@@ -534,57 +535,26 @@ function loadCharts(name){
     if(error) throw error;
 
         //Create the Data Structures for the Billboard.js charts
-        var num_entries_in_table = csvDataSets[0].length;
+        age_map_2006 = returnAgeMap(csvDataSets[0]);
+        age_map_2010 = returnAgeMap(csvDataSets[1]);
+        age_map_2014 = returnAgeMap(csvDataSets[2]);
+        age_map_2018 = returnAgeMap(csvDataSets[3]);
 
-        age_map = {"AMAZONAS":[["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]],
-                      "ANCASH":[["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]]};
-        var d = csvDataSets[0];      
-        for(var i=1; i<d.length;i++){
-          if (!(d[i].REGION in age_map)) {
-            age_map[d[i].REGION] = [["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]];
-          }
-          age_map[d[i].REGION][0][1] += parseInt(d[i].UNDER_18.replace(/,/g,''));
-          age_map[d[i].REGION][1][1] += parseInt(d[i].AGE_18_TO_20.replace(/,/g,''));
-          age_map[d[i].REGION][2][1] += parseInt(d[i].AGE_21_TO_29.replace(/,/g,''));
-          age_map[d[i].REGION][3][1] += parseInt(d[i].AGE_30_TO_35.replace(/,/g,''));
-          age_map[d[i].REGION][4][1] += parseInt(d[i].AGE_36_TO_50.replace(/,/g,''));
-          age_map[d[i].REGION][5][1] += parseInt(d[i].AGE_51_TO_75.replace(/,/g,''));
-          age_map[d[i].REGION][6][1] += parseInt(d[i].OVER_75.replace(/,/g,''));
+        var main_age_map = {};
+        for(key in age_map_2006){
+            main_age_map[key] = [["<18",0,0,0,0],["18-20",0,0,0,0],["21-29", 0,0,0,0], 
+                                 ["30-35", 0,0,0,0], ["36-50", 0,0,0,0],["51-75", 0,0,0,0], 
+                                 [">75", 0,0,0,0]];
+            for (var i=0; i < 7;i++){
+              main_age_map[key][i][1] += age_map_2006[key][i][1];
+              main_age_map[key][i][2] += age_map_2010[key][i][1];
+              main_age_map[key][i][3] += age_map_2014[key][i][1];
+              main_age_map[key][i][4] += age_map_2018[key][i][1];
+            }
         }
-        console.log("print out map after summing");
-        console.log(age_map);
-        /*
-        var struct = d3.nest()
-          .key(function(d){ return d.REGION;})
-          .sortKeys(d3.ascending)
-          .rollup (function (d) {
-            return {
-              "UNDER_18":d3.sum(d, function(g){ return g.UNDER_18; }),
-              "AGE_18_20":d3.sum(d, function(g){ return g.AGE_18_TO_20;}),
-              "AGE_21_29":d3.sum(d, function(g){ return g.AGE_21_TO_29;}),
-              "AGE_30_35":d3.sum(d, function(g){ return g.AGE_30_TO_35;}),
-              "AGE_36_50":d3.sum(d, function(g){ return g.AGE_36_TO_50;}),
-              "AGE_51_75":d3.sum(d, function(g){ return g.AGE_51_TO_75;}),
-              "OVER_75":d3.sum(d, function(g){ return g.OVER_75;})
-            };
-        })
-        .entries(csvDataSets[0]);
 
-        console.log("d3 values");
-        console.log(d3.values(struct));
+        ageGroupChartMap = main_age_map;
 
-        var newMap = {};
-        for(i=0; i < d3.values(struct).length;i++){
-          d3.values(struct[i]).forEach(function (v){
-              newMap[struct[i].key] = [["<18", v.UNDER_18], ["18-20", v.AGE_18_20],
-            ["21-29", v.AGE_21_29], ["30-35", v.AGE_30_35], ["36-50", v.AGE_36_50], 
-            ["51-75", v.AGE_51_75], [">75", v.OVER_75]];
-          });
-        }
-        console.log("printing new map");
-        console.log(newMap);
-        */
-        ageGroupChartMap = age_map; 
         educationChartMap = {
           'Amazonas': [
                     ["Graduate school", 30, 15, 10, 40],
