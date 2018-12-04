@@ -99,37 +99,52 @@
             </div>
             <div class="card-body">
                 <!-- Dropdown -->
-              <div class="dropdown" id="dropdownRegion">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRegionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;">
-                  Select Region
-                </button>
-                <div class="dropdown-menu" aria-labelledby="selectRegionButton">
-                  <ul style="padding: 10px; margin: 0px;">
-                    <div class="row">
-                      <div class="col-sm-6">
-                        <ul class="multi-column-dropdown" id="selectRegion1"></ul>
-                      </div>
-                      <div class="col-sm-6">
-                        <ul class="multi-column-dropdown" id="selectRegion2"></ul>
-                      </div>
-                  </ul>
+              <div class="row">
+                <div class="dropdown col" id="dropdownRegion" style="margin-right: 0px;">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="selectRegionButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;">
+                    Select Region
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="selectRegionButton">
+                    <ul style="padding: 10px; margin: 0px;">
+                      <div class="row">
+                        <div class="col-sm-6">
+                          <ul class="multi-column-dropdown" id="selectRegion1"></ul>
+                        </div>
+                        <div class="col-sm-6">
+                          <ul class="multi-column-dropdown" id="selectRegion2"></ul>
+                        </div>
+                    </ul>
+                  </div>
                 </div>
+                <div class="dropdown col" id="dropdownProvince">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="selectProvinceButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;" disabled="true">
+                      Select Province
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="selectProvinceButton">
+                    <ul>
+                      <div class="row">
+                        <div>
+                          <ul class="single-column-dropdown" id="selectProvince1" style="padding-left: 0px;"></ul>
+                        </div>
+                    </ul>
+                  </div>
+                </div>
+                <div class="dropdown col" id="dropdownDistrict">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="selectDistrictButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;" disabled="true">
+                      Select District
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="selectDistrictButton">
+                    <ul>
+                      <div class="row">
+                        <div>
+                          <ul class="single-column-dropdown" id="selectDistrict1" style="padding-left: 0px;"></ul>
+                        </div>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <br>
 
-              </div>
-              <div class="dropdown" id="dropdownProvince">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="selectProvinceButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;" disabled="true">
-                    Select Province
-                </button>
-                <div class="dropdown-menu" aria-labelledby="selectProvinceButton">
-                  <ul style="padding: 10px; margin: 0px;">
-                    <div class="row">
-                      <div>
-                        <ul class="single-column-dropdown" id="selectProvince1" style="padding: 0px;"></ul>
-                      </div>
-                  </ul>
-                </div>
-                
-              </div>
                 <!--- End dropdown -->
                 <div id="pNames">
                   <div class="row" id="dynamicPartyNames">
@@ -190,24 +205,25 @@
       var provinceButton = document.getElementById('selectProvinceButton');
       provinceButton.disabled = false;
       populateProvince(regionSelected);
-      d3.csv('csv_data/ERegionalesMunicipales2006_MunicipalElectionResults2006_Regional.csv',function (d) {
+      d3.csv('csv_data/ERegionalesMunicipales2014_MunicipalElectionResults2014_Regional.csv',function (d) {
         // console.log(d);
-        for(var i=1; i<d.length;i++){
+        for(var i=0; i<d.length;i++){
           if (d[i].REGION == regionSelected) {
             // console.log(d[i].POLITICAL_ORGANIZATION);
             d3.select('#pNames')
-              .append('div')
-              .attr('style', 'padding: 10px;')
-              .attr('id', 'dynamicPartyNames')
+              // .append('div')
+              // .attr('style', 'padding: 10px;')
+              // .attr('id', 'dynamicPartyNames')  
               .attr('class', 'row')
               .append('div')
               .attr('class', 'col-sm-4')
+              // .attr('style', 'padding: 10px;')
               // .append('br')
               .append('ul')
               .attr('class', 'list-group')
               .attr('id', 'PartyNames1');
 
-            d3.select('#dynamicPartyNames')
+            /*d3.select('#dynamicPartyNames')
               .append('div')
               .attr('class', 'col-sm-4')
               .append('ul')
@@ -219,16 +235,16 @@
               .attr('class', 'col-sm-4')
               .append('ul')
               .attr('class', 'list-group')
-              .attr('id', 'PartyNames3');
+              .attr('id', 'PartyNames3');*/
 
-            if (flood<4) {
+            if (true) {
             d3.select('#PartyNames1')
               .append('li')
               .attr('class', 'list-group-item')
               .attr('style', 'font-size: 12px; padding: 5px;')
               .text(d[i].POLITICAL_ORGANIZATION);
-              flood++;
-            }else if (flood<8){
+              // flood++;
+            }/*else if (flood<8){
               d3.select('#PartyNames2')
               .append('li')
               .attr('class', 'list-group-item')
@@ -241,7 +257,7 @@
               .attr('class', 'list-group-item')
               .attr('style', 'font-size: 12px; padding: 5px;')
               .text(d[i].POLITICAL_ORGANIZATION);
-            }
+            }*/
           }
         }
       });
@@ -249,7 +265,7 @@
     // Populate Region Dropdown -----------------------------------------
     d3.json('peru_data/peru_region.geojson', function(error, mapData) {
       var features = mapData.features;
-      for (var i = 1; i<features.length; i++){
+      for (var i = 0; i<features.length; i++){
 
       // console.log(features[0].properties.NOMBDEP);
         if (i > (features.length)/2) {
@@ -282,27 +298,94 @@
     });//d3JSON
 
     // Populate Province Dropdown -----------------------------------------------------
-    function populateProvince(region) {
+    function populateProvince(province) {
       d3.json('peru_data/peru_province.geojson', function(error, mapData) {
         var features = mapData.features;
-        for(var i = 1; i<features.length; i++){
-          if (region == features[i].properties.FIRST_NOMB) {
+        $(selectProvince1).empty();
+        d3.select('#selectProvinceButton')
+        .text('Select Province');
+        for(var i = 0; i<features.length; i++){
+          if (province == features[i].properties.FIRST_NOMB) {
             console.log(features[i].properties.NOMBPROV);
             d3.select('#selectProvince1')
             .append('li')
-            // .attr('class', 'dropdown-item')
-            .attr('style', 'margin-left: 10px;')
+            .attr('class', 'dropdown-item')
+            .attr('style', 'padding: 5px;')
             .append('a')
             .attr('id', features[i].properties.NOMBPROV)
             .text(features[i].properties.NOMBPROV)
             .on('click', function () {
               // console.log(this.id);
-              // regionSelected(this.id);
+              provinceSelected(this.id);
             });
           }
         }
       });
     }
+    function provinceSelected(province) {
+      var flood = 0;
+      d3.select('#selectProvinceButton')
+        .text(province);
+      // var element = document.getElementById('dynamicPartyNames');
+      // element.remove();
+      $(PartyNames1).remove();
 
+      var districtButton = document.getElementById('selectDistrictButton');
+      districtButton.disabled = false;
+
+      d3.csv('csv_data/Province_Parties.csv',function (d) {
+        console.log(d);
+        for(var i=1; i<d.length;i++){
+          if (d[i].PROVINCE == province) {
+            // console.log(d[i].POLITICAL_ORGANIZATION);
+            d3.select('#pNames')
+              .attr('class', 'row')
+              .append('div')
+              .attr('class', 'col-sm-4')
+              .append('ul')
+              .attr('class', 'list-group')
+              .attr('id', 'PartyNames1');
+
+            /*d3.select('#dynamicPartyNames')
+              .append('div')
+              .attr('class', 'col-sm-4')
+              .append('ul')
+              .attr('class', 'list-group')
+              .attr('id', 'PartyNames2');
+
+            d3.select('#dynamicPartyNames')
+              .append('div')
+              .attr('class', 'col-sm-4')
+              .append('ul')
+              .attr('class', 'list-group')
+              .attr('id', 'PartyNames3');*/
+
+            if (true) {
+            d3.select('#PartyNames1')
+              .append('li')
+              .attr('class', 'list-group-item')
+              .attr('style', 'font-size: 12px; padding: 5px;')
+              .text(d[i].POLITICAL_ORGANIZATION);
+              // flood++;
+            }/*else if (flood<8){
+              d3.select('#PartyNames2')
+              .append('li')
+              .attr('class', 'list-group-item')
+              .attr('style', 'font-size: 12px; padding: 5px;')
+              .text(d[i].POLITICAL_ORGANIZATION);
+              flood++;
+            }*//*else{
+              d3.select('#PartyNames3')
+              .append('li')
+              .attr('class', 'list-group-item')
+              .attr('style', 'font-size: 12px; padding: 5px;')
+              .text(d[i].POLITICAL_ORGANIZATION);
+              flood++;
+            }*/
+          }
+        }
+      });
+    }
+    
   </script>
 </html>
