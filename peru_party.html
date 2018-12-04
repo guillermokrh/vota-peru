@@ -143,8 +143,6 @@
                   </div>
                 </div>
               </div>
-              <br>
-
                 <!--- End dropdown -->
                 <div id="pNames">
                   <div class="row" id="dynamicPartyNames">
@@ -211,19 +209,18 @@
           if (d[i].REGION == regionSelected) {
             // console.log(d[i].POLITICAL_ORGANIZATION);
             d3.select('#pNames')
-              // .append('div')
-              // .attr('style', 'padding: 10px;')
-              // .attr('id', 'dynamicPartyNames')  
+              .append('div')
+              .attr('style', 'padding: 10px;')
+              .attr('id', 'dynamicPartyNames')
               .attr('class', 'row')
               .append('div')
               .attr('class', 'col-sm-4')
-              // .attr('style', 'padding: 10px;')
               // .append('br')
               .append('ul')
               .attr('class', 'list-group')
               .attr('id', 'PartyNames1');
 
-            /*d3.select('#dynamicPartyNames')
+            d3.select('#dynamicPartyNames')
               .append('div')
               .attr('class', 'col-sm-4')
               .append('ul')
@@ -235,16 +232,16 @@
               .attr('class', 'col-sm-4')
               .append('ul')
               .attr('class', 'list-group')
-              .attr('id', 'PartyNames3');*/
+              .attr('id', 'PartyNames3');
 
-            if (true) {
+            if (flood<4) {
             d3.select('#PartyNames1')
               .append('li')
               .attr('class', 'list-group-item')
               .attr('style', 'font-size: 12px; padding: 5px;')
               .text(d[i].POLITICAL_ORGANIZATION);
-              // flood++;
-            }/*else if (flood<8){
+              flood++;
+            }else if (flood<8){
               d3.select('#PartyNames2')
               .append('li')
               .attr('class', 'list-group-item')
@@ -257,7 +254,7 @@
               .attr('class', 'list-group-item')
               .attr('style', 'font-size: 12px; padding: 5px;')
               .text(d[i].POLITICAL_ORGANIZATION);
-            }*/
+            }
           }
         }
       });
@@ -328,7 +325,7 @@
         .text(province);
       // var element = document.getElementById('dynamicPartyNames');
       // element.remove();
-      $(PartyNames1).remove();
+      $(dynamicPartyNames).empty();
 
       var districtButton = document.getElementById('selectDistrictButton');
       districtButton.disabled = false;
@@ -339,14 +336,18 @@
           if (d[i].PROVINCE == province) {
             // console.log(d[i].POLITICAL_ORGANIZATION);
             d3.select('#pNames')
+              .append('div')
+              .attr('style', 'padding: 10px;')
+              .attr('id', 'dynamicPartyNames')
               .attr('class', 'row')
               .append('div')
               .attr('class', 'col-sm-4')
+              // .append('br')
               .append('ul')
               .attr('class', 'list-group')
               .attr('id', 'PartyNames1');
 
-            /*d3.select('#dynamicPartyNames')
+            d3.select('#dynamicPartyNames')
               .append('div')
               .attr('class', 'col-sm-4')
               .append('ul')
@@ -358,30 +359,29 @@
               .attr('class', 'col-sm-4')
               .append('ul')
               .attr('class', 'list-group')
-              .attr('id', 'PartyNames3');*/
+              .attr('id', 'PartyNames3');
 
-            if (true) {
+            if (flood<4) {
             d3.select('#PartyNames1')
               .append('li')
               .attr('class', 'list-group-item')
               .attr('style', 'font-size: 12px; padding: 5px;')
               .text(d[i].POLITICAL_ORGANIZATION);
-              // flood++;
-            }/*else if (flood<8){
+              flood++;
+            }else if (flood<8){
               d3.select('#PartyNames2')
               .append('li')
               .attr('class', 'list-group-item')
               .attr('style', 'font-size: 12px; padding: 5px;')
               .text(d[i].POLITICAL_ORGANIZATION);
               flood++;
-            }*//*else{
+            }else{
               d3.select('#PartyNames3')
               .append('li')
               .attr('class', 'list-group-item')
               .attr('style', 'font-size: 12px; padding: 5px;')
               .text(d[i].POLITICAL_ORGANIZATION);
-              flood++;
-            }*/
+            }
           }
         }
       });
