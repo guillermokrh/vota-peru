@@ -137,12 +137,12 @@
         <li class="nav-item">
           <a class="nav-link" href="peru_party.html">
             <i class="fas fa-fw fa-users"></i>
-            <span>Party Comparisons</span></a>
+            <span>Regional Party</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="tables.html">
+          <a class="nav-link" href="candidate_comparisons.html">
             <i class="fas fa-fw fa-id-card"></i>
-            <span>Candidate Comparisons</span></a>
+            <span>Candidates 2018</span></a>
         </li>
       </ul>
 
@@ -157,7 +157,7 @@
               Map of Peru</div>
               <div class="card-body">
                 <div style="float: right; margin: auto; width: auto;">
-                  <h1>Info about the region</h1>
+                  <!-- <h1>Info about the region</h1> -->
                 </div>
                 <div style="float: left;">
                   <svg></svg>
@@ -378,6 +378,9 @@
               tooltip.transition()
               .duration(200)
               .style("opacity",0.9);
+              tooltip2.transition()
+              .duration(200)
+              .style("opacity",0.9);
               if (value == 2006){
                 // console.log("2006")
                 party = d.properties.Party_2006;
@@ -389,13 +392,23 @@
               else{
                 
                 party = d.properties.Party_2014;
-              } 
-                tooltip.html(party)
+              }
+
+              tooltip.html("Region:\n" + d.properties.NOMBDEP)
                 .style("left", (d3.event.pageX) + "px")
                 .style("top", (d3.event.pageY - 28) + "px");
+              tooltip2.html("Governing Party:\n" + party)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY + 28) + "px");
+                /*tooltip.html(party)
+                .style("left", (d3.event.pageX) + "px")
+                .style("top", (d3.event.pageY - 28) + "px");*/
             })
             .on("mouseout", function(d) {
                   tooltip.transition()
+                  .duration(500)
+                  .style("opacity", 0);
+                  tooltip2.transition()
                   .duration(500)
                   .style("opacity", 0);
             })
@@ -634,7 +647,7 @@ function loadCharts(name){
             bindto: "#chart",
             size:{
               height:400,
-              width:700
+              width:600
             },
             data: {
               type: "line",
