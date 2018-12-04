@@ -469,7 +469,279 @@
     }
     // --- ---
 
+    // billboard.js charts 
     // --- ---
+//Helper functions to pass in data sets to Billboard.js charts
+function loadCharts(name){
+    loadChart(ageGroupChart, ageGroupChartMap, name);
+    loadChart(educationChart, educationChartMap, name);
+    //unloadChart(partiesVoterchart);
+    loadChart(partiesVoterchart, partyVoterChartMap, name);
+  }
+  /*remove data from the age group chart*/
+  function loadChart(c, m, name){
+    c.load({
+      columns: m[name],
+      unload: true,
+    });
+  }
+  //remove previous data
+  function unloadChart(c){
+    c.unload();
+  }
+
+  //filenames of CSV files to read
+  var filenames = ["csv_data/Padron_ERM2014_Census_ERM2014.csv"];
+
+  //initialize d3.queue() object
+  var queue = d3.queue();
+
+  //Pass in each filename to d3.csv function
+  filenames.forEach(function(filename) {
+    queue.defer(d3.csv, filename);
+  });
+
+  var ageGroupChartMap = {};
+  var ageGroupChart;
+  var educationChartMap = {};
+  var educationChart;
+  var partyVoterChartMap = {};
+  var partiesVoterchart;
+  //Once each d3.csv file finishes and returns, execute body of awaitAll
+  queue.awaitAll(function(error, csvDataSets) {
+    if(error) throw error;
+
+        //Create the Data Structures for the Billboard.js charts
+        var num_entries_in_table = csvDataSets[0].length;
+        var struct = d3.nest()
+          .key(function(d){ return d.REGION;})
+          .sortKeys(d3.ascending)
+          .rollup (function (d) {
+            return {
+              "UNDER_18":d3.sum(d, function(g){ return g.UNDER_18; }),
+              "AGE_18_20":d3.sum(d, function(g){ return g.AGE_18_TO_20;}),
+              "AGE_21_29":d3.sum(d, function(g){ return g.AGE_21_TO_29;}),
+              "AGE_30_35":d3.sum(d, function(g){ return g.AGE_30_TO_35;}),
+              "AGE_36_50":d3.sum(d, function(g){ return g.AGE_36_TO_50;}),
+              "AGE_51_75":d3.sum(d, function(g){ return g.AGE_51_TO_75;}),
+              "OVER_75":d3.sum(d, function(g){ return g.OVER_75;})
+            };
+        })
+        .entries(csvDataSets[0]);
+
+        console.log("d3 values");
+        console.log(d3.values(struct));
+
+        var newMap = {};
+        for(i=0; i < d3.values(struct).length;i++){
+          d3.values(struct[i]).forEach(function (v){
+              newMap[struct[i].key] = [["<18", v.UNDER_18], ["18-20", v.AGE_18_20],
+            ["21-29", v.AGE_21_29], ["30-35", v.AGE_30_35], ["36-50", v.AGE_36_50], 
+            ["51-75", v.AGE_51_75], [">75", v.OVER_75]];
+          });
+        }
+        console.log("printing new map");
+        console.log(newMap);
+        ageGroupChartMap = newMap; 
+        educationChartMap = {
+          'Amazonas': [
+                    ["Graduate school", 30, 15, 10, 40],
+                    ["College", 250, 300, 275, 320],
+                    ["High school", 240, 290, 325, 350],
+                    ["Secondary school", 10, 12, 13, 15],
+                    ["Primary school", 50, 75, 75, 50],
+                    ["No school", 30, 20, 40, 50]
+                ],
+          'Ancash': [
+                    ["Graduate school", 30, 15, 10, 40],
+                    ["College", 150, 200, 175, 220],
+                    ["High school", 250, 300, 325, 350],
+                    ["Secondary school", 100, 120, 130, 140],
+                    ["Primary school", 50, 75, 75, 50],
+                    ["No school", 30, 20, 40, 50]
+                ]
+        }
+
+        partyVoterChartMap = {
+          'Amazonas': [
+                    ["Sentimiento Amazonense Regional", 300, 153, 161, 222],
+                    ["Movimiento Regional Ferrza Amazonense", 260, 330, 115, 320],
+                    ["Obras Por Amazonas", 340, 212, 225, 350],
+                    ["Votos El Blanco", 120, 112, 323, 375],
+                    ["Alianza Para El Progreso", 210, 312, 113, 175]
+                ],
+          'Ancash': [
+                    ["Alianza Para El Progreso", 310, 115, 110, 140],
+                    ["Partido Democratico Somos Peru", 150, 200, 175, 220],
+                    ["Union Por El Peru", 250, 300, 325, 350],
+                    ["Peru Posible", 100, 120, 130, 140],
+                    ["Peru Patria Segura", 350, 275, 175, 250],
+                    ["Votos Nulos", 230, 120, 340, 150]
+                ]
+        }
+
+        //End static test data for the map
+        //------------------------------------------------ Education Line Chart ------------------------------------------
+        educationChart = bb.generate({
+            bindto: "#chart",
+            size:{
+              height:400,
+              width:700
+            },
+            data: {
+              type: "line",
+                columns: [
+                    ["Graduate school", 30, 15, 10, 40],
+                    ["College", 150, 200, 175, 220],
+                    ["High school", 250, 300, 325, 350],
+                    ["Secondary school", 100, 120, 130, 140],
+                    ["Primary school", 50, 75, 75, 50],
+                    ["No school", 30, 20, 40, 50]
+                ]
+            },
+            legend: {
+              position: "right"
+            },
+            axis: {
+              x: {
+                label: {
+                  text: "Year",
+                  position: "outer-center"
+                },
+                type: "category",
+                categories: [
+                  "2006",
+                  "2010",
+                  "2014",
+                  "2018"
+                ]
+              },
+              y: {
+                label: {
+                  text: "Population",
+                  position: "outer-middle"
+                }
+              }
+            }
+        });
+        //------------------------------------------ End of Education Chart ---------------------------------------------
+
+        //-------------------------------------------- Age Groups Chart -------------------------------------------------
+        ageGroupChart = bb.generate({
+          size:{
+              height:400,
+              width:600
+            },
+          data: {
+            /* this is default data*/
+            columns: [
+            ["<18", 200],
+            ["18-20", 430],
+            ["21-29", 430],
+            ["30-35", 330],
+            ["36-50", 330],
+            ["51-75", 230],
+            [">75", 230]
+            ],
+            type: "bar",
+            groups: [
+              [
+                "<18",
+                "18-20",
+                "21-29",
+                "30-35",
+                "36-50",
+                "51-75",
+                ">75"
+              ]
+            ]
+
+          },
+          legend: {
+            position: "right"
+          },
+          axis: {
+            x: {
+              label: {
+                text: "Year",
+                position: "outer-center"
+              },
+              type: "category",
+              categories: [
+                "2014",
+              ]
+            },
+            y: {
+                label: {
+                  text: "Population",
+                  position: "outer-middle"
+                }
+              }
+          },
+          grid: {
+            y: {
+              lines: [
+                {
+                  value: 0
+                }
+              ]
+            }
+          },
+          bindto: "#StackedBarChart"
+        });
+        //------------------------------------------ End of Age Groups Chart ---------------------------------------------
+
+        //------------------------------------ Voting Comparisons for Party Chart ----------------------------------------
+
+
+        //Generates Parties Voter Chart 
+        partiesVoterchart = bb.generate({
+          size:{
+            height:400,
+            width: 750
+            },
+          data: {
+            x : "x",
+            columns: [
+            ["x", 2006, 2010, 2014, 2018],
+          ["Party 1", 30, 350, 200, 380],
+          ["Party 2", 130, 100, 10, 200],
+          ["Party 3", 230, 153, 85, 300],
+          ["Party 4", 210, 133, 285, 123],
+            ],
+
+            type: "bubble",
+            labels: true
+          },
+          bubble: {
+            maxR: 40
+          },
+          legend: {
+              position: "right"
+            },
+          axis: {
+            x: {
+              type: "category",
+              label : {
+                text : "Year",
+                position: "outer-center"
+              }
+            },
+            y: {
+              max: 500,
+              label : {
+                text : "Votes",
+                position : "outer-middle"
+              }
+            }
+          },
+          bindto: "#partyVoterChart"
+        });
+    });
+
+
+
+    /*
     var educationChart = bb.generate({
       bindto: "#chart",
       size:{
@@ -520,7 +792,7 @@
         width:550
       },
     data: {
-      /* this is default data*/
+      // this is default data/
       columns: [
     ["<18", 100, 105, 100, 110],
     ["18-30", 130, 100, 100, 150],
@@ -573,5 +845,6 @@
     },
     bindto: "#StackedBarChart"
   });
+  */
   </script>
 </html>
