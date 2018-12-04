@@ -98,14 +98,15 @@
               Political Parties of Peru</div>
               <div class="card-body">
                 
-
-
                 <!-- Dropdown -->
-                <div class="col-lg-12" id="#dropdownRegion">
-                  <!-- <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="dropdown" id="#dropdownRegion">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;">
                     Select Region
-                  </button> -->
-                  <!-- <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> -->
+                  </button>
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="selectProvinceButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 11px;" disabled="true">
+                    Select Province
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     
                     <ul style="padding: 10px; margin: 0px;">
                       <div class="row">
@@ -118,13 +119,24 @@
                     </ul>
                     
                   </div>
-                <!-- End dropdown -->
+                <!--- End dropdown -->
+                <div id="pNames">
+                  <div class="row" id="dynamicPartyNames">
+                    <div class="col-sm-4">
+                      <br>
+                      <ul id="PartyNames1" class="list-group"></ul>
+                    </div>
 
-                <div class="row align-items-center" style="float: left;">
+                    <div class="col-sm-4">
+                      <br>
+                      <ul id="PartyNames2" class="list-group"></ul>
+                    </div>
+                </div>
+                <!-- <div class="row align-items-center" style="float: left;">
                   <div class="col-lg">
                     
                   </div>
-                </div>
+                </div> -->
               </div>
           </div>
 
@@ -170,6 +182,72 @@
 
     function regionSelected(regionSelected) {
 
+      var flood = 0;
+      
+      d3.select('#dropdownMenuButton')
+        .text(regionSelected);
+      
+      var element = document.getElementById('dynamicPartyNames');
+      element.remove();
+      
+      var provinceButton = document.getElementById('selectProvinceButton');
+      provinceButton.disabled = false;
+
+      d3.csv('csv_data/ERegionalesMunicipales2006_MunicipalElectionResults2006_Regional.csv',function (d) {
+        // console.log(d);
+        for(var i=1; i<d.length;i++){
+          if (d[i].REGION == regionSelected) {
+            console.log(d[i].POLITICAL_ORGANIZATION);
+            d3.select('#pNames')
+              .append('div')
+              .attr('style', 'padding: 10px;')
+              .attr('id', 'dynamicPartyNames')
+              .attr('class', 'row')
+              .append('div')
+              .attr('class', 'col-sm-4')
+              // .append('br')
+              .append('ul')
+              .attr('class', 'list-group')
+              .attr('id', 'PartyNames1');
+
+            d3.select('#dynamicPartyNames')
+              .append('div')
+              .attr('class', 'col-sm-4')
+              .append('ul')
+              .attr('class', 'list-group')
+              .attr('id', 'PartyNames2');
+
+            d3.select('#dynamicPartyNames')
+              .append('div')
+              .attr('class', 'col-sm-4')
+              .append('ul')
+              .attr('class', 'list-group')
+              .attr('id', 'PartyNames3');
+
+            if (flood<4) {
+            d3.select('#PartyNames1')
+              .append('li')
+              .attr('class', 'list-group-item')
+              .attr('style', 'font-size: 12px; padding: 5px;')
+              .text(d[i].POLITICAL_ORGANIZATION);
+              flood++;
+            }else if (flood<8){
+              d3.select('#PartyNames2')
+              .append('li')
+              .attr('class', 'list-group-item')
+              .attr('style', 'font-size: 12px; padding: 5px;')
+              .text(d[i].POLITICAL_ORGANIZATION);
+              flood++;
+            }else{
+              d3.select('#PartyNames3')
+              .append('li')
+              .attr('class', 'list-group-item')
+              .attr('style', 'font-size: 12px; padding: 5px;')
+              .text(d[i].POLITICAL_ORGANIZATION);
+            }
+          }
+        }
+      });
     }
     d3.json('peru_data/peru_region.geojson', function(error, mapData) {
       var features = mapData.features;
@@ -195,14 +273,16 @@
             .append('li')
             .append("a")
             .attr('class', 'dropdown-item')
-            .text(features[i].properties.NOMBDEP);
+            .attr('id', features[i].properties.NOMBDEP)
+            .text(features[i].properties.NOMBDEP)
+            .on('click', function () {
+              // console.log(this.id);
+              regionSelected(this.id);
+            });
         } //else
       } //for
     });//d3JSON
 
-    d3.csv('csv_data/HDVDATOSPERSONALES_Personal_Information_data1.csv', function(data) {
-      console.log(data);
-    })
 
   </script>
 </html>
