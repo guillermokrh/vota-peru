@@ -151,7 +151,7 @@
 
 var data = ["./csv_data/dataJoin8.csv"]
 // var queue = d3.queue();
-var val = 'YARINACOCHA'
+var val = 'MANU'
 var val = val.toLowerCase()
 // console.log(value)
 
@@ -162,7 +162,7 @@ d3.queue()
 
 
 var filterByDistrict = d3.nest()
-    .key(function(d){return d['ELECTION_DISTRICT']}) 
+    .key(function(d){return d['ELECTION_PROVINCE']}) 
     // .rollup(function(v){return v.length})
     .entries(candidates);
 
