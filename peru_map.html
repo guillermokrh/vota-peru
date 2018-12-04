@@ -431,6 +431,8 @@
           .duration(500)
           .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")scale(" + k + ")translate(" + -x + "," + -y + ")")
           .style("stroke-width", 1.5 / k + "px");
+     console.log(selectedRegion);
+     loadChart(ageGroupChart, ageGroupChartMap, selectedRegion);
      });         
     }
     function usZoom(d) {
@@ -490,6 +492,26 @@ function loadCharts(name){
     c.unload();
   }
 
+
+  //testing of d3.csv
+  age_map = {"AMAZONAS":[["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]],
+                "ANCASH":[["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]]};
+ 
+  /*d3.csv('csv_data/Padron_ERM2014_Census_ERM2014.csv',function (d) {
+        // console.log(d);
+        for(var i=1; i<d.length;i++){
+          if (d[i].REGION == "AMAZONAS") {
+              console.log(d[i]);
+              age_map["AMAZONAS"][0][1] =+ d[i].UNDER_18;
+          }
+               //["<18", v.UNDER_18], ["18-20", v.AGE_18_20],
+            //["21-29", v.AGE_21_29], ["30-35", v.AGE_30_35], ["36-50", v.AGE_36_50], 
+            //["51-75", v.AGE_51_75], [">75", v.OVER_75]];
+        }
+  });
+  console.log("print out map after summing");
+  console.log(age_map);*/
+
   //filenames of CSV files to read
   var filenames = ["csv_data/Padron_ERM2014_Census_ERM2014.csv"];
 
@@ -513,6 +535,25 @@ function loadCharts(name){
 
         //Create the Data Structures for the Billboard.js charts
         var num_entries_in_table = csvDataSets[0].length;
+
+        age_map = {"AMAZONAS":[["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]],
+                      "ANCASH":[["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]]};
+        var d = csvDataSets[0];      
+        for(var i=1; i<d.length;i++){
+          if (!(d[i].REGION in age_map)) {
+            age_map[d[i].REGION] = [["<18",0],["18-20",0],["21-29", 0], ["30-35", 0], ["36-50", 0],["51-75", 0], [">75", 0]];
+          }
+          age_map[d[i].REGION][0][1] += parseInt(d[i].UNDER_18.replace(/,/g,''));
+          age_map[d[i].REGION][1][1] += parseInt(d[i].AGE_18_TO_20.replace(/,/g,''));
+          age_map[d[i].REGION][2][1] += parseInt(d[i].AGE_21_TO_29.replace(/,/g,''));
+          age_map[d[i].REGION][3][1] += parseInt(d[i].AGE_30_TO_35.replace(/,/g,''));
+          age_map[d[i].REGION][4][1] += parseInt(d[i].AGE_36_TO_50.replace(/,/g,''));
+          age_map[d[i].REGION][5][1] += parseInt(d[i].AGE_51_TO_75.replace(/,/g,''));
+          age_map[d[i].REGION][6][1] += parseInt(d[i].OVER_75.replace(/,/g,''));
+        }
+        console.log("print out map after summing");
+        console.log(age_map);
+        /*
         var struct = d3.nest()
           .key(function(d){ return d.REGION;})
           .sortKeys(d3.ascending)
@@ -542,7 +583,8 @@ function loadCharts(name){
         }
         console.log("printing new map");
         console.log(newMap);
-        ageGroupChartMap = newMap; 
+        */
+        ageGroupChartMap = age_map; 
         educationChartMap = {
           'Amazonas': [
                     ["Graduate school", 30, 15, 10, 40],
@@ -627,13 +669,13 @@ function loadCharts(name){
         //------------------------------------------ End of Education Chart ---------------------------------------------
 
         //-------------------------------------------- Age Groups Chart -------------------------------------------------
+        //contains default data
         ageGroupChart = bb.generate({
           size:{
               height:400,
               width:600
             },
           data: {
-            /* this is default data*/
             columns: [
             ["<18", 200],
             ["18-20", 430],
@@ -739,112 +781,5 @@ function loadCharts(name){
         });
     });
 
-
-
-    /*
-    var educationChart = bb.generate({
-      bindto: "#chart",
-      size:{
-        height:400,
-        width:550
-      },
-      data: {
-        type: "line",
-          columns: [
-              ["Graduate school", 30, 15, 10, 40],
-              ["College", 150, 200, 175, 220],
-              ["High school", 250, 300, 325, 350],
-              ["Secondary school", 100, 120, 130, 140],
-              ["Primary school", 50, 75, 75, 50],
-              ["No school", 30, 20, 40, 50]
-          ]
-      },
-      legend: {
-        position: "right"
-      },
-      axis: {
-        x: {
-          label: {
-            text: "Year",
-            position: "outer-center"
-          },
-          type: "category",
-          categories: [
-            "2006",
-            "2010",
-            "2014",
-            "2018"
-          ]
-        },
-        y: {
-          label: {
-            text: "Population",
-            position: "outer-middle"
-          }
-        }
-      }
-    });
-    // --- ---
-    // --- ---
-    var ageGroupChart = bb.generate({
-    size:{
-        height:400,
-        width:550
-      },
-    data: {
-      // this is default data/
-      columns: [
-    ["<18", 100, 105, 100, 110],
-    ["18-30", 130, 100, 100, 150],
-    ["30-50", 230, 200, 200, 300],
-    [">50", 230, 200, 200, 300]
-      ],
-      type: "bar",
-      groups: [
-        [
-          "<18",
-          "18-30",
-          "30-50",
-          ">50"
-        ]
-      ]
-
-    },
-    legend: {
-      position: "right"
-    },
-    axis: {
-      x: {
-        label: {
-          text: "Year",
-          position: "outer-center"
-        },
-        type: "category",
-        categories: [
-          "2006",
-          "2010",
-          "2014",
-          "2018"
-        ]
-      },
-      y: {
-          label: {
-            text: "Population",
-            position: "outer-middle"
-          }
-        }
-    },
-    grid: {
-      y: {
-        lines: [
-          {
-            value: 0
-          }
-        ]
-      }
-    },
-    bindto: "#StackedBarChart"
-  });
-  */
   </script>
 </html>
