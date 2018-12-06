@@ -118,8 +118,50 @@ function random (start, end) {
       .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')'; });
   }
 
+  function returnAgeMap(d){
+    var party_map = {};
+    for(var i=1; i<d.length;i++){
+      if (!(d[i].POLITICAL_PARTY in party_map)) {
+        party_map[d[i].POLITICAL_PARTY] = {"male": 0, "female":0, "candidate_ids":[], "university_educated":0}; 
+      }
+      //add statistics for female and male
+      if (d[i].GENDER == "FEMENINO"){
+        party_map[d[i].POLITICAL_PARTY].female += 1; 
+      } else if (d[i].GENDER == "MASCULINO"){
+        party_map[d[i].POLITICAL_PARTY].male += 1; 
+      }
+      //add candidate ids
+      party_map[d[i].POLITICAL_PARTY].candidate_ids.push(parseInt(d[i].DNI_ID));
+    }
+    return party_map;
+  }
+
+  function returnUniversityMap(d){
+    var uni_map = {};
+    for(var i=1; i<d.length;i++){
+      if (!(d[i].CANDIDATE_ID in uni_map)){
+        if(d[i].HAS_UNIVERSITY_EDUCATION != "NO"){
+          uni_map[d[i].CANDIDATE_ID] = 1;
+        }
+      }
+    }
+    return uni_map;
+  }
+
+  function count_education(uni_map, party_map){
+    for (key in party_map){
+      //candidates = party_map[key].candidate_ids;
+      for (var i = 0; i < party_map[key].candidate_ids.length; i++){
+        if (party_map[key].candidate_ids[i] in uni_map){
+            party_map[key].university_educated +=1;
+        }
+      }
+    }
+  }
+
   //filenames of CSV files to read
-  var filenames = ["csv_data/candidates_mini.csv", "csv_data/afiliaciones_mini.csv"];
+  var filenames = ["csv_data/candidates_mini.csv", "csv_data/afiliaciones_mini.csv", "csv_data/CANDIDATOSERM2018v2_CANDIDATES2018_joined.csv",
+                  "csv_data/HDVEDUCACIONUNIVERSITARIA_University_Education_joined.csv"];
 
   //initialize d3.queue() object
   var queue = d3.queue();
@@ -138,14 +180,33 @@ function random (start, end) {
     // console.log(csvDataSets[0]);
     // console.log(csvDataSets[1]);
 
+    party_map = returnAgeMap(csvDataSets[2]);
+    univ_map = returnUniversityMap(csvDataSets[3]);
+    console.log("university map")
+    console.log(univ_map);
+    console.log("number of candidates with university education")
+    console.log(Object.keys(univ_map).length);
+    console.log("party map")
+    console.log(party_map);
+    console.log("number of parties");
+    console.log(Object.keys(party_map).length);
+    count_education(univ_map, party_map);
+    console.log("party map with university education")
+    console.log(party_map);
+
+    var univ_sum = 0;
+    for (key in party_map){
+      univ_sum += party_map[key].university_educated;
+    }
+    console.log("count of university educated");
+    console.log(univ_sum);
+
     num_entries = csvDataSets[0].length;
-    var percentGender = d3.nest().key(function(d){
-      if(d.ELECTION_JURY=="ICA"){
-        return d.GENDER;}
-      }).entries(csvDataSets[0]);
+
+    let party_name = "ESFUERZOS UNIDOS"
     // console.log(percentGender);
-    female = percentGender[1].values.length;
-    male = percentGender[2].values.length;
+    female = party_map[party_name].female;
+    male = party_map[party_name].male;
     // console.log("male: " + male);
     // console.log("female: " + female);
 
@@ -205,4 +266,3 @@ function random (start, end) {
     
     groupByShape(grid,svg,shapes);
   });
-
