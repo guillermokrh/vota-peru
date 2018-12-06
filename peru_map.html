@@ -60,7 +60,7 @@
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Search candidate or party" aria-label="Search" aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button class="btn btn-primary" type="button">
+            <button class="btn btn-info" type="button">
               <i class="fas fa-search"></i>
             </button>
           </div>
@@ -141,7 +141,6 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" href="candidate_comparisons.html">
-          <a class="nav-link" href="./candidate_comparisons.html">
             <i class="fas fa-fw fa-id-card"></i>
             <span>Candidates 2018</span></a>
         </li>
@@ -152,7 +151,7 @@
         <div class="container-fluid">
 
           <!-- Area Chart Example-->
-          <div class="card mb-3">
+          <div class="card mb-3" style="border-radius: 7px; border-color: #C0C0C0;">
             <div class="card-header">
               <!-- <i class="fas fa-chart-area"></i> -->
               Map of Peru</div>
@@ -192,7 +191,7 @@
                     <div><h2 style="text-align: center">Age Groups in Region</h2></div>
                     <div id="StackedBarChart"></div>
                 </div>
-                <div id="votersChart" style="width:550px; float: left; font-family: Arial, Helvetica, sans-serif">
+                <div id="votersChart" style="width:550px; float: left; font-family: Arial, Helvetica, sans-serif"><br><br>
                     <div><h2 style="text-align: center">Party Voter in Region</h2></div>
                     <div id="partyVoterChart"></div>
                 </div>
@@ -258,6 +257,8 @@
     padding = 20,
     centered;
 
+    var test = 1;
+
     var projection = d3.geoMercator()
       .scale(1100)
       .center([-65.2, -9.3])
@@ -280,7 +281,7 @@
       .attr('class', 'background')
       .attr('width', width)
       .attr('height', height)
-      .style('fill', '#f7f5f5');
+      .style('fill', '#f7f5f5'); //(d, i) => { return get_data(test, d, i) }
       // .on('click', clicked);
     var g = svg.append('g');
     var effectLayer = g.append('g')
@@ -698,7 +699,7 @@ function loadCharts(name){
         ageGroupChart = bb.generate({
           size:{
               height:400,
-              width:600
+              width:550
             },
           data: {
             columns: [

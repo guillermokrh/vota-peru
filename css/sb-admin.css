@@ -17,6 +17,7 @@ body {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  background: #D3D3D3;
 }
 
 #wrapper #content-wrapper {
@@ -24,6 +25,7 @@ body {
   width: 100%;
   padding-top: 1rem;
   padding-bottom: 80px;
+
 }
 
 body.fixed-nav #content-wrapper {
@@ -283,6 +285,10 @@ body.fixed-nav.sidebar-toggled #content-wrapper {
   max-width: 25rem;
 }
 
+/*.card {
+  border-radius: 30px;
+}*/
+
 .card-register {
   max-width: 40rem;
 }
@@ -437,6 +443,9 @@ text.big-text{
 }
 .effect-layer text, text.dummy-text{
   font-size: 12px;
+}
+.pName {
+  width: 380px;
 }
 div.tooltip {
   position: absolute;
