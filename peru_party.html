@@ -78,12 +78,12 @@
         <li class="nav-item active">
           <a class="nav-link" href="peru_party.html">
             <i class="fas fa-fw fa-users"></i>
-            <span>Party Comparisons</span></a>
+            <span>Regional Party</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="tables.html">
+          <a class="nav-link" href="candidate_comparisons.html">
             <i class="fas fa-fw fa-id-card"></i>
-            <span>Candidate Comparisons</span></a>
+            <span>Candidates 2018</span></a>
         </li>
       </ul>
 
@@ -151,11 +151,12 @@
             </div>
 
           <!-- DataTables Example -->
-          <div class="card mb-3">
+          <div class="card mb-3" style="visibility: hidden;" id="radarBody">
             <div class="card-header">
               <!-- <i class="fas fa-table"></i> -->
-              Region Information</div>
+              Party Information</div>
             <div class="card-body">
+              <div id="rChart""></div>
           </div>
         </div>
         <!-- /.container-fluid -->
@@ -386,6 +387,40 @@
         }
       });
     }
-    
+    $('#pNames').click(function () {
+      if (document.getElementById('selectRegionButton').disabled == false) {
+        document.getElementById('radarBody').style.visibility = "visible";  
+      }
+      else{
+        document.getElementById('radarBody').style.visibility = "hidden"; 
+      }
+      
+    })
+    var chart = bb.generate({
+    data: {
+      x: "x",
+      columns: [
+    ["x", "Votes Obtained in Last Election", "Regions", "Criminal records", "University Education", "Number of Candidates"],
+    ["UNION POR EL PERU", 330, 350, 200, 380, 150],
+    ["VOTOS EN BLANCO", 130, 100, 30, 200, 80],
+    ["VOTOS NULOS", 230, 153, 85, 300, 250]
+      ],
+      type: "radar",
+      labels: true
+    },
+    radar: {
+      axis: {
+        max: 400
+      },
+      level: {
+        depth: 1
+      },
+      direction: {
+        clockwise: false
+      }
+    },
+    bindto: "#rChart"
+  });
+
   </script>
 </html>
