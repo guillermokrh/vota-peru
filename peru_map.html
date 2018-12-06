@@ -49,7 +49,7 @@
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
       <!-- <div> -->
         
-        <a class="navbar-brand mr-1" style="margin: auto;" href="index.html"><i class="navbar-brand mr-1 fas fa-fw fa-hand-peace"></i><b>VotaPeru</b></a>
+        <a class="navbar-brand mr-1" style="margin: auto;" href="peru_map.html"><i class="navbar-brand mr-1 fas fa-fw fa-hand-peace"></i><b>VotaPeru</b></a>
       <!-- </div> -->
       <!-- <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -156,22 +156,46 @@
               <!-- <i class="fas fa-chart-area"></i> -->
               Map of Peru</div>
               <div class="card-body">
-                <div style="float: right; margin: auto; width: auto;">
-                  <!-- <h1>Info about the region</h1> -->
-                </div>
-                <div style="float: left;">
-                  <svg></svg>
-                </div>
-                <!-- <canvas id="myAreaChart" width="100%" height="30"></canvas> -->
-                
-                <div class="row align-items-center" style="float: left;">
-                  <!-- <div class="col-sm-2">
-                    <p id="value3"></p>
-                  </div> -->
-                  <div class="col-lg">
-                    <div id="slider3"></div>
+                <div class="row">
+                  <div class="btn-group" role="group" style="margin-left:10px;">
+                    <button id="06_radio" type="button" class="btn btn-outline-info active" onclick="colorUpdate(2006)">2006</button>
+                    <button id="10_radio" type="button" class="btn btn-outline-info" onclick="colorUpdate(2010)">2010</button>
+                    <button id="14_radio" type="button" class="btn btn-outline-info" onclick="colorUpdate(2014)">2014</button>
+                  </div>
+                  <div>
+                    <h5></h5>
                   </div>
                 </div>
+                <div class="row">
+                  <div><br>
+                    <svg></svg>
+                  </div>
+                  <!-- <canvas id="myAreaChart" width="100%" height="30"></canvas> -->
+                  
+                  <!-- <div> -->
+                    <!-- <div class="col-sm-2">
+                      <p id="value3"></p>
+                    </div> -->
+                    <div class="col-lg">
+                      <!-- <div id="slider3"></div> -->
+                      
+                      <div class="table-responsive"><br>
+                        <table class="table" id="dataTable" width="100%" cellspacing="0">
+                          <thead>
+                            <tr>
+                              <!-- <th>Color</th> -->
+                              <th>Political Organization</th>
+                              <th>Govt Positions</th>
+                            </tr>
+                          </thead>
+                          <tbody id="tableBody">
+                            
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                </div>
+                <!-- </div> -->
               </div>
               <div class="card-footer small text-muted">Click on the regions to view Provinces</div>
           </div>
@@ -252,7 +276,8 @@
 
   </body>
   <script>
-    var width = 650,
+
+    var width = 500,
     height = 400,
     padding = 20,
     centered;
@@ -261,7 +286,7 @@
 
     var projection = d3.geoMercator()
       .scale(1100)
-      .center([-65.2, -9.3])
+      .center([-70.2, -9.3])
       .translate([width / 2, height / 2]);
     var path = d3.geoPath()
       .projection(projection);
@@ -292,7 +317,7 @@
 
 
     //  --- Slider ---
-    var data3 = d3.range(0, 3).map(function (d) { return new Date(2006 + (d*4), 4, 3); });
+    /*var data3 = d3.range(0, 3).map(function (d) { return new Date(2006 + (d*4), 4, 3); });
     console.log(data3);
       var slider3 = d3.sliderTop()
         .min(d3.min(data3))
@@ -314,7 +339,7 @@
         .append("g")
         .attr("transform", "translate(30,60)");
 
-      group3.call(slider3);
+      group3.call(slider3);*/
       
     // --- End Slider ---
 
@@ -358,6 +383,23 @@
     });
     function colorUpdate(value){
       
+      if (value == 2006) {
+        if (!document.getElementById('06_radio').classList.contains('active')) {
+
+          document.getElementById('06_radio').classList.add('active');
+        }
+        document.getElementById('10_radio').classList.remove('active');
+        document.getElementById('14_radio').classList.remove('active');
+      }else if (value == 2010) {
+        document.getElementById('06_radio').classList.remove('active');
+        document.getElementById('10_radio').classList.add('active');
+        document.getElementById('14_radio').classList.remove('active');
+      }
+      else{
+        document.getElementById('06_radio').classList.remove('active');
+        document.getElementById('10_radio').classList.remove('active');
+        document.getElementById('14_radio').classList.add('active');
+      }
       mapLayer.selectAll('path').remove();
       d3.json('peru_data/peru_region.geojson', function(error, mapData) {
         var features = mapData.features;
@@ -422,6 +464,7 @@
       });
       }
     function clicked(d) {
+      // populateTable(selectedRegion);
       d3.json('peru_data/peru_province.geojson', function(error, mapData){
         var features = mapData.features;
         var province_features = [];
@@ -603,7 +646,7 @@ function loadCharts(name){
             }
         }
         
-        console.log(main_age_map);
+        // console.log(main_age_map);
         ageGroupChartMap = main_age_map;
 
         //edu_map[d[i].REGION] = [["INITIAL_EDUCATION",0],["PRIMARY_EDUCATION",0],["SECONDARY_EDUCATION", 0], ["UNIVERSITY_EDUCATION", 0], ["TECHNICAL_EDUCATION", 0],["SPECIAL_EDUCATION", 0], ["NO_EDUCATION", 0]];
@@ -626,7 +669,7 @@ function loadCharts(name){
             }
         }
 
-        console.log(main_edu_map);
+        // console.log(main_edu_map);
         educationChartMap = main_edu_map;
 
         partyVoterChartMap = {
@@ -810,6 +853,91 @@ function loadCharts(name){
           bindto: "#partyVoterChart"
         });
     });
+readPartyTableData();
+function readPartyTableData() {
+    var c = [];
+    var parties;
+    d3.queue()
+    .defer(d3.csv, 'csv_data/PrevGovtPos.csv')
+    .await(function (error, data) {
+      if (error) {
+        throw error;
+      }
+      parties = d3.nest()
+        .key(function (d) {
+          return d.POLITICAL_PARTY_DURING_POSITION;
+        })
+        .rollup(function (v) {
+          return v.length;
+        })
+        .entries(data);
+        /*.sort(function (a,b) {
+          return d3.descending(a.values, b.values);
+        });*/
 
+        for(var i = 0;i<20;i++) {
+          
+          if (parties[i].value > 15) {
+            c.push(parties[i]);
+          }
+          // c.push(parties[i]);
+        }
+        // c = sortC(s);
+        c.sort(sortC(c));
+        console.log(c);
+        populateTable(c);
+    });
+
+}
+function sortC(c) {
+  
+}
+function populateTable(parties) {
+  console.log(parties);
+  var rows = d3.select('#tableBody').selectAll('tr')
+          .data(parties)
+          .enter()
+          .append("tr");
+          // d3.selectAll('tr')
+          rows
+          .data(parties)
+          .append('td')
+          .text(function (d) {
+            return d.key; 
+          });
+          // d3.selectAll('tr')
+          rows
+          .data(parties)
+          .append('td')
+          .text(function (d) {
+            return d.value;
+          });
+
+  /*var cells = rows.selectAll("td")
+                  .data(function(row) {
+                    return parties.map(function(column) {
+                      return {value: row[column]};
+                    });
+                  })
+                  .enter()
+                  .append('td')
+                  .text(function(d) {
+                    return d.value;
+                  });*/
+  for(var i=0;i<10;i++) {
+    
+    /*d3.select('#tableBody')
+      .append('tr')
+      .attr('role', 'row')
+      .attr('class', 'odd')
+      .attr('id','r1')
+      .append('td')
+      .text(parties[i].key);
+    d3.select('#r1')  
+      .append('td')
+      .text(parties[i].value);*/
+  }
+
+}
   </script>
 </html>
