@@ -49,7 +49,7 @@
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
       <!-- <div> -->
         
-        <a class="navbar-brand mr-1" style="margin: auto;" href="peru_map.html"><i class="navbar-brand mr-1 fas fa-fw fa-hand-peace"></i><b>VotaPeru</b></a>
+        <a class="navbar-brand mr-1" style="margin: auto;" href="index.html"><i class="navbar-brand mr-1 fas fa-fw fa-hand-peace"></i><b>VotaPeru</b></a>
       <!-- </div> -->
       <!-- <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
         <i class="fas fa-bars"></i>
@@ -60,7 +60,7 @@
         <div class="input-group">
           <input type="text" class="form-control" placeholder="Search candidate or party" aria-label="Search" aria-describedby="basic-addon2">
           <div class="input-group-append">
-            <button class="btn btn-info" type="button">
+            <button class="btn btn-primary" type="button">
               <i class="fas fa-search"></i>
             </button>
           </div>
@@ -151,51 +151,28 @@
         <div class="container-fluid">
 
           <!-- Area Chart Example-->
-          <div class="card mb-3" style="border-radius: 7px; border-color: #C0C0C0;">
+          <div class="card mb-3">
             <div class="card-header">
               <!-- <i class="fas fa-chart-area"></i> -->
               Map of Peru</div>
               <div class="card-body">
-                <div class="row">
-                  <div class="btn-group" role="group" style="margin-left:10px;">
-                    <button id="06_radio" type="button" class="btn btn-outline-info active" onclick="colorUpdate(2006)">2006</button>
-                    <button id="10_radio" type="button" class="btn btn-outline-info" onclick="colorUpdate(2010)">2010</button>
-                    <button id="14_radio" type="button" class="btn btn-outline-info" onclick="colorUpdate(2014)">2014</button>
-                  </div>
-                  <div>
-                    <h5></h5>
+                <div style="float: right; margin: auto; width: auto;">
+                  <h1>Info about the region</h1>
+                </div>
+                </div>
+                <div style="float: left;">
+                  <svg></svg>
+                </div>
+                <!-- <canvas id="myAreaChart" width="100%" height="30"></canvas> -->
+                
+                <div class="row align-items-center" style="float: left;">
+                  <!-- <div class="col-sm-2">
+                    <p id="value3"></p>
+                  </div> -->
+                  <div class="col-lg">
+                    <div id="slider3"></div>
                   </div>
                 </div>
-                <div class="row">
-                  <div><br>
-                    <svg></svg>
-                  </div>
-                  <!-- <canvas id="myAreaChart" width="100%" height="30"></canvas> -->
-                  
-                  <!-- <div> -->
-                    <!-- <div class="col-sm-2">
-                      <p id="value3"></p>
-                    </div> -->
-                    <div class="col-lg">
-                      <!-- <div id="slider3"></div> -->
-                      
-                      <div class="table-responsive"><br>
-                        <table class="table" id="dataTable" width="100%" cellspacing="0">
-                          <thead>
-                            <tr>
-                              <!-- <th>Color</th> -->
-                              <th>Political Organization</th>
-                              <th>Govt Positions</th>
-                            </tr>
-                          </thead>
-                          <tbody id="tableBody">
-                            
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                </div>
-                <!-- </div> -->
               </div>
               <div class="card-footer small text-muted">Click on the regions to view Provinces</div>
           </div>
@@ -215,7 +192,7 @@
                     <div><h2 style="text-align: center">Age Groups in Region</h2></div>
                     <div id="StackedBarChart"></div>
                 </div>
-                <div id="votersChart" style="width:550px; float: left; font-family: Arial, Helvetica, sans-serif"><br><br>
+                <div id="votersChart" style="width:550px; float: left; font-family: Arial, Helvetica, sans-serif">
                     <div><h2 style="text-align: center">Party Voter in Region</h2></div>
                     <div id="partyVoterChart"></div>
                 </div>
@@ -276,17 +253,18 @@
 
   </body>
   <script>
-
-    var width = 500,
+    var width = 650,
     height = 400,
     padding = 20,
     centered;
+    var value = 2006;
+    // var final = []
 
-    var test = 1;
+
 
     var projection = d3.geoMercator()
       .scale(1100)
-      .center([-70.2, -9.3])
+      .center([-65.2, -9.3])
       .translate([width / 2, height / 2]);
     var path = d3.geoPath()
       .projection(projection);
@@ -306,7 +284,7 @@
       .attr('class', 'background')
       .attr('width', width)
       .attr('height', height)
-      .style('fill', '#f7f5f5'); //(d, i) => { return get_data(test, d, i) }
+      .style('fill', '#f7f5f5');
       // .on('click', clicked);
     var g = svg.append('g');
     var effectLayer = g.append('g')
@@ -317,8 +295,8 @@
 
 
     //  --- Slider ---
-    /*var data3 = d3.range(0, 3).map(function (d) { return new Date(2006 + (d*4), 4, 3); });
-    console.log(data3);
+    var data3 = d3.range(0, 3).map(function (d) { return new Date(2006 + (d*4), 4, 3); });
+    // console.log(data3);
       var slider3 = d3.sliderTop()
         .min(d3.min(data3))
         .max(d3.max(data3))
@@ -328,7 +306,7 @@
         .tickValues(data3)
         .on('onchange', val => {
           d3.select("p#value3").text(d3.timeFormat('%Y')(val));
-          var value = d3.timeFormat('%Y')(val);
+          value = d3.timeFormat('%Y')(val);
           colorUpdate(value);
         });
 
@@ -339,7 +317,7 @@
         .append("g")
         .attr("transform", "translate(30,60)");
 
-      group3.call(slider3);*/
+      group3.call(slider3);
       
     // --- End Slider ---
 
@@ -352,6 +330,7 @@
           .enter().append('path')
           .attr('d', path)
           .attr('vector-effect', 'non-scaling-stroke')
+          .style("stroke-width", "1.1")
           .style('fill', function(d){
             return d.properties.Color_2006;
           })
@@ -383,32 +362,34 @@
     });
     function colorUpdate(value){
       
-      if (value == 2006) {
-        if (!document.getElementById('06_radio').classList.contains('active')) {
-
-          document.getElementById('06_radio').classList.add('active');
-        }
-        document.getElementById('10_radio').classList.remove('active');
-        document.getElementById('14_radio').classList.remove('active');
-      }else if (value == 2010) {
-        document.getElementById('06_radio').classList.remove('active');
-        document.getElementById('10_radio').classList.add('active');
-        document.getElementById('14_radio').classList.remove('active');
-      }
-      else{
-        document.getElementById('06_radio').classList.remove('active');
-        document.getElementById('10_radio').classList.remove('active');
-        document.getElementById('14_radio').classList.add('active');
-      }
       mapLayer.selectAll('path').remove();
       d3.json('peru_data/peru_region.geojson', function(error, mapData) {
         var features = mapData.features;
-        
+        // console.log(features.length)
+
+        var partyName = [];
+        var colorName = [];
+        for(var i=0; i< features.length; i++){
+          if (value == 2006){
+            partyName.push(features[i].properties.Party_2006  + ", " + features[i].properties.NOMBDEP);
+            colorName.push(features[i].properties.Color_2006);
+          }
+          else if(value == 2010){
+            partyName.push(features[i].properties.Party_2010 + ", " + features[i].properties.NOMBDEP);
+            colorName.push(features[i].properties.Color_2010);
+          }
+          else{
+            partyName.push(features[i].properties.Party_2014 + ", " + features[i].properties.NOMBDEP);
+            colorName.push(features[i].properties.Color_2014);
+          }
+        }
+
         mapLayer.selectAll('path')
             .data(features)
             .enter().append('path')
             .attr('d', path)
             .attr('vector-effect', 'non-scaling-stroke')
+            .style("stroke-width", "1.1")
             .style('fill', function(d){
               if (value == 2006){
                 // console.log("2006")
@@ -460,15 +441,88 @@
                   .duration(500)
                   .style("opacity", 0);
             })
+
             .on('click', clicked);
       });
       }
     function clicked(d) {
-      // populateTable(selectedRegion);
       d3.json('peru_data/peru_province.geojson', function(error, mapData){
         var features = mapData.features;
         var province_features = [];
         selectedRegion = d.properties.NOMBDEP
+        // partyRegion = d.properties.Party
+        // console.log(value)
+
+// ------ to see same parties in province -------------
+        if (value == 2006){
+                // console.log("2006")
+                party = d.properties.Party_2006
+                color = d.properties.Color_2006
+                dataValue = 'csv_data/Province_Parties_2006.csv'
+              }
+              else if(value == 2010){
+                 // console.log("2010")
+                party = d.properties.Party_2010
+                color = d.properties.Color_2010
+                dataValue = 'csv_data/Province_Parties_2010.csv'
+              }
+              else{
+                
+                party = d.properties.Party_2014
+                color = d.properties.Color_2014
+                dataValue = 'csv_data/Province_Parties.csv'
+              }
+
+              
+// console.log(party)
+          
+
+
+          d3.queue()
+            .defer(d3.csv, dataValue)
+            .await(function(error, datap){
+            if (error) throw error;
+        // d3.csv('csv_data/Province_Parties.csv',function (datap){
+
+            // consolse.log(datap)
+            var final = []
+
+            var filterByRegion = d3.nest()
+            .key(function(d){
+              return d.REGION;
+            })
+            .key(function(d){return d.PROVINCE;})
+            .entries(datap)
+
+
+            for(var i=0; i< filterByRegion.length; i++){
+              if (filterByRegion[i].key == selectedRegion){
+                r = filterByRegion[i].values
+
+                for (var j=0; j< r.length; j++){
+                  parties = r[j].values[0]['POLITICAL_ORGANIZATION']
+                  // console.log(parties)
+                 
+                      // console.log(parties)
+                    if (parties == party){
+
+                        final.push(r[j].values[0]['PROVINCE'])
+                      
+                    
+                  }
+                }
+              }
+            }
+console.log(final)
+console.log(party , color)
+provinces(final);
+        });
+
+// console.log(final)
+
+
+// -----------------------end
+function provinces(final){
         for(var i=0; i<features.length; i++){
           region = features[i].properties.FIRST_NOMB
           if ( region === selectedRegion){
@@ -483,9 +537,51 @@
             var enterCountyPaths = countyPaths.enter().append('path')
                 .attr('class', 'county')
                 .attr('d', path)
-                .style('fill', 'white')
-                .style('opacity', 0.9)
-                .on('click', function () { usZoom() })
+                .style("stroke", "#fff")
+                .style("stroke-width", "1.4")
+                .style('fill', function(d){
+                    // console.log(final)
+                    province = d.properties.NOMBPROV
+                    for(var i=0; i< final.length; i++){
+                      // console.log(final[i])
+                      if(province == final[i]){
+
+                        return color;
+                      }
+                    }
+                    
+                    return 'white';
+
+                })
+                .style('opacity', 0.8)
+                .on('mouseover', function(d){
+                    tooltip.transition()
+                    .duration(200)
+                    .style("opacity",0.9);
+                    // console.log(d.properties.Party);
+                    // tooltip2.transition()
+                    // .duration(200)
+                    // .style("opacity",0.9);
+                    // console.log(d.properties.Party);
+                    tooltip.html("Province:\n" + d.properties.NOMBPROV)
+                      .style("left", (d3.event.pageX) + "px")
+                      .style("top", (d3.event.pageY - 28) + "px");
+                    // tooltip2.html("Governing Party:\n" + d.properties.Party_2006)
+                    //   .style("left", (d3.event.pageX) + "px")
+                    //   .style("top", (d3.event.pageY + 28) + "px");
+                  })
+                  .on("mouseout", function(d) {
+                        tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+                        
+                  })
+                .on('click', function () { 
+                  tooltip.transition()
+                        .duration(500)
+                        .style("opacity", 0);
+
+                  usZoom() })
 
         if (d && centered !== d) {
         var centroid = path.centroid(d);
@@ -508,11 +604,11 @@
           .style("stroke-width", 1.5 / k + "px");
      console.log(selectedRegion);
      loadChart(ageGroupChart, ageGroupChartMap, selectedRegion);
-     loadChart(educationChart, educationChartMap, selectedRegion);
+     loadChart(educationChart, educationChartMap, selectedRegion);}
      });         
     }
     function usZoom(d) {
-      console.log("in us zoom");
+      // console.log("in us zoom");
       var t = d3.transition().duration(800)
 
             mapLayer.transition(t)
@@ -742,7 +838,7 @@ function loadCharts(name){
         ageGroupChart = bb.generate({
           size:{
               height:400,
-              width:550
+              width:600
             },
           data: {
             columns: [
@@ -853,91 +949,6 @@ function loadCharts(name){
           bindto: "#partyVoterChart"
         });
     });
-readPartyTableData();
-function readPartyTableData() {
-    var c = [];
-    var parties;
-    d3.queue()
-    .defer(d3.csv, 'csv_data/PrevGovtPos.csv')
-    .await(function (error, data) {
-      if (error) {
-        throw error;
-      }
-      parties = d3.nest()
-        .key(function (d) {
-          return d.POLITICAL_PARTY_DURING_POSITION;
-        })
-        .rollup(function (v) {
-          return v.length;
-        })
-        .entries(data);
-        /*.sort(function (a,b) {
-          return d3.descending(a.values, b.values);
-        });*/
 
-        for(var i = 0;i<20;i++) {
-          
-          if (parties[i].value > 15) {
-            c.push(parties[i]);
-          }
-          // c.push(parties[i]);
-        }
-        // c = sortC(s);
-        c.sort(sortC(c));
-        // console.log(c);
-        populateTable(c);
-    });
-
-}
-function sortC(c) {
-  
-}
-function populateTable(parties) {
-  console.log(parties);
-  var rows = d3.select('#tableBody').selectAll('tr')
-          .data(parties)
-          .enter()
-          .append("tr");
-          // d3.selectAll('tr')
-          rows
-          .data(parties)
-          .append('td')
-          .text(function (d) {
-            return d.key; 
-          });
-          // d3.selectAll('tr')
-          rows
-          .data(parties)
-          .append('td')
-          .text(function (d) {
-            return d.value;
-          });
-
-  /*var cells = rows.selectAll("td")
-                  .data(function(row) {
-                    return parties.map(function(column) {
-                      return {value: row[column]};
-                    });
-                  })
-                  .enter()
-                  .append('td')
-                  .text(function(d) {
-                    return d.value;
-                  });*/
-  for(var i=0;i<10;i++) {
-    
-    /*d3.select('#tableBody')
-      .append('tr')
-      .attr('role', 'row')
-      .attr('class', 'odd')
-      .attr('id','r1')
-      .append('td')
-      .text(parties[i].key);
-    d3.select('#r1')  
-      .append('td')
-      .text(parties[i].value);*/
-  }
-
-}
   </script>
 </html>
