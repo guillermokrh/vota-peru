@@ -11,16 +11,6 @@ function random (start, end) {
     return array[index];
   }
   
-  function ascending (a, b) {
-    return typeof a === 'string' ? 
-      a.localeCompare(b) :
-      a.size - b.size;
-  }
-  function descending (a, b) {
-    return typeof a === 'string' ? 
-      b.localeCompare(a) :
-      b.size - a.size;
-  }
   
   function randomComparator (d) {
     return randomPick([-1, 0, 1]);
@@ -64,29 +54,6 @@ function random (start, end) {
         .style('opacity', 1);
   }
   
-  function sortGroupAscend () {
-    grid.sort(ascending);
-  
-    updateLabels(grid,svg);
-    transition(grid,svg);
-  }
-  
-  function sortGroupDescend () {
-    grid.sort(descending);
-  
-    updateLabels(grid,svg);
-    transition(grid,svg);
-  }
-  
-  function sortSizeAscend () {
-    grid.sort(null, ascending);
-    transition(grid,svg);
-  }
-  
-  function sortSizeDescend () {
-    grid.sort(null, descending);
-    transition(grid,svg);
-  }
   
   function sortRandom () {
     grid.sort(randomComparator, randomComparator)
@@ -96,13 +63,6 @@ function random (start, end) {
   function groupByShape (grid, svg,shapes) {
     grid.groupBy('shape');
     transition(grid,svg,shapes);
-  }
-  
-  function groupBySize () {
-    grid.groupBy(function (d) {
-      return sizeScale(d.size);
-    });
-    transition(grid,svg);
   }
   
   function groupByColor () {
@@ -117,6 +77,8 @@ function random (start, end) {
       .duration(750)
       .attr('transform', function (d) { return 'translate(' + d.x + ',' + d.y + ')'; });
   }
+
+  ////// End of comparison helper functions
 
   function returnAgeMap(d){
     var party_map = {};
@@ -159,56 +121,10 @@ function random (start, end) {
     }
   }
 
-  //filenames of CSV files to read
-  var filenames = ["csv_data/candidates_mini.csv", "csv_data/afiliaciones_mini.csv", "csv_data/CANDIDATOSERM2018v2_CANDIDATES2018_joined.csv",
-                  "csv_data/HDVEDUCACIONUNIVERSITARIA_University_Education_joined.csv"];
-
-  //initialize d3.queue() object
-  var queue = d3.queue();
-
-  //Pass in each filename to d3.csv function
-  filenames.forEach(function(filename) {
-    queue.defer(d3.csv, filename);
-  });
-
-  //Once each d3.csv file finishes and returns, execute body of awaitAll
-  queue.awaitAll(function(error, csvDataSets) {
-    if(error) throw error;
-
-    //executes after d3.csv is called and returns from all calls
-    // console.log("printing csv data sets");
-    // console.log(csvDataSets[0]);
-    // console.log(csvDataSets[1]);
-
-    party_map = returnAgeMap(csvDataSets[2]);
-    univ_map = returnUniversityMap(csvDataSets[3]);
-    console.log("university map")
-    console.log(univ_map);
-    console.log("number of candidates with university education")
-    console.log(Object.keys(univ_map).length);
-    console.log("party map")
-    console.log(party_map);
-    console.log("number of parties");
-    console.log(Object.keys(party_map).length);
-    count_education(univ_map, party_map);
-    console.log("party map with university education")
-    console.log(party_map);
-
-    var univ_sum = 0;
-    for (key in party_map){
-      univ_sum += party_map[key].university_educated;
-    }
-    console.log("count of university educated");
-    console.log(univ_sum);
-
-    num_entries = csvDataSets[0].length;
-
-    let party_name = "ESFUERZOS UNIDOS"
-    // console.log(percentGender);
+  function draw_comparison_shapes(party_map, party_name){
+    console.log("draw comparison shapes");
     female = party_map[party_name].female;
     male = party_map[party_name].male;
-    // console.log("male: " + male);
-    // console.log("female: " + female);
 
     /*set up map*/
     var width = 1000;
@@ -265,4 +181,48 @@ function random (start, end) {
     //.delay(function (d) { return delayScale(d.groupIndex * 150 + d.index * 1); })
     
     groupByShape(grid,svg,shapes);
+  }
+
+  //filenames of CSV files to read
+  var filenames = ["csv_data/candidates_mini.csv", "csv_data/afiliaciones_mini.csv", "csv_data/CANDIDATOSERM2018v2_CANDIDATES2018_joined.csv",
+                  "csv_data/HDVEDUCACIONUNIVERSITARIA_University_Education_joined.csv"];
+
+  //initialize d3.queue() object
+  var queue = d3.queue();
+
+  //Pass in each filename to d3.csv function
+  filenames.forEach(function(filename) {
+    queue.defer(d3.csv, filename);
+  });
+
+  //Once each d3.csv file finishes and returns, execute body of awaitAll
+  queue.awaitAll(function(error, csvDataSets) {
+    if(error) throw error;
+
+    party_map = returnAgeMap(csvDataSets[2]);
+    univ_map = returnUniversityMap(csvDataSets[3]);
+    console.log("university map")
+    console.log(univ_map);
+    console.log("number of candidates with university education")
+    console.log(Object.keys(univ_map).length);
+    console.log("party map")
+    console.log(party_map);
+    console.log("number of parties");
+    console.log(Object.keys(party_map).length);
+    count_education(univ_map, party_map);
+    console.log("party map with university education")
+    console.log(party_map);
+
+    var univ_sum = 0;
+    for (key in party_map){
+      univ_sum += party_map[key].university_educated;
+    }
+    console.log("count of university educated");
+    console.log(univ_sum);
+
+    num_entries = csvDataSets[0].length;
+
+    let party_name = "ESFUERZOS UNIDOS"
+
+    draw_comparison_shapes(party_map, party_name);
   });
