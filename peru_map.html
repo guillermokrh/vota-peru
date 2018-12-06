@@ -507,6 +507,7 @@
     // billboard.js charts 
     // --- ---
 //Helper functions to pass in data sets to Billboard.js charts
+let datasets = null;
 function loadCharts(name){
     loadChart(ageGroupChart, ageGroupChartMap, name);
     loadChart(educationChart, educationChartMap, name);
@@ -515,6 +516,8 @@ function loadCharts(name){
   }
   /*remove data from the age group chart*/
   function loadChart(c, m, name){
+    /*console.log("printing datasets");
+    console.log(datasets);*/
     c.load({
       columns: m[name],
       unload: true,
@@ -581,9 +584,10 @@ function loadCharts(name){
   var partyVoterChartMap = {};
   var partiesVoterchart;
   //Once each d3.csv file finishes and returns, execute body of awaitAll
+
   queue.awaitAll(function(error, csvDataSets) {
     if(error) throw error;
-
+        datasets = csvDataSets;
         //Create the Data Structures for the Billboard.js charts
         age_map_2006 = returnAgeMap(csvDataSets[0]);
         age_map_2010 = returnAgeMap(csvDataSets[1]);
@@ -811,5 +815,7 @@ function loadCharts(name){
         });
     });
 
+    console.log("printing after queue")
+    console.log(datasets);
   </script>
 </html>
