@@ -144,10 +144,16 @@
                 </div>
               </div>
                 <!--- End dropdown -->
-                <div id="pNames"><br>
-                  <h5 id="partyHeader"></h5>
-                  <div class="row col-sm-4" id="dynamicPartyNames">
+                <div class="row">
+                  <div id="pNames" class="col-lg-4"><br>
+                    <h5 id="partyHeader"></h5>
+                    <div class="row col-sm-4" id="dynamicPartyNames">
+                    </div>
                   </div>
+                  <div id="categoryChart" class="col-lg-8" style="width: 650px; float:right; font-family: Arial, Helvetica, sans-serif">
+                    <div><br><br><h6 style="text-align: left; margin-left: 20px;">Party Details : Gender ratio</h6>
+                    <svg id="category"></svg>
+                  </div>  
                 </div>
             </div>
 
@@ -157,10 +163,7 @@
               <!-- <i class="fas fa-table"></i> -->
               Party Comparison</div>
             <div class="card-body">
-              <div id="categoryChart" style="width: 650px; float:left; font-family: Arial, Helvetica, sans-serif">
-                <div><h2 style="text-align: center">Gender Breakdown of Party</h2></div>
-                <svg id="category"></svg>
-              </div>
+              
               <div id="rChart"></div>
           </div>
         </div>
@@ -440,9 +443,9 @@
         x: "x",
         columns: [
       ["x", "Votes Obtained in Last Election", "Regions", "Criminal records", "University Education", "Number of Candidates"],
-      ["UNION POR EL PERU", 330, 350, 200, 380, 150],
-      ["VOTOS EN BLANCO", 130, 100, 30, 200, 80],
-      ["VOTOS NULOS", 230, 153, 85, 300, 250]
+      ["ACCION POPULAR", 330, 350, 200, 380, 150],
+      ["ALIANZA PARA EL PROGRESO", 130, 100, 30, 200, 80],
+      ["MOVIMIENTO INTEGRACION LORETANA", 230, 153, 85, 300, 250]
         ],
         type: "radar",
         labels: true
@@ -688,7 +691,7 @@ function random (start, end) {
 
     num_entries = csvDataSets[0].length;
 
-    var width = 1000;
+    var width = 650;
     var height = 500;
     grid = d3.grid()
       .width(width)
